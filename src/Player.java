@@ -1,4 +1,11 @@
+import java.util.ArrayList;
+
 public class Player {
 
-    private Card card;
+    protected ArrayList<Card> currentCards;
+    private boolean isPlaying = false;
+
+    public ArrayList<Card> getCurrentCards() {
+        return currentCards;
+    }
 }
