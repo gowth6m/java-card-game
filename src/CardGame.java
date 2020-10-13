@@ -40,9 +40,13 @@ public class CardGame {
             }
         }
 
+        // testing stuff here
         System.out.println(numberOfPlayers);
         System.out.println(fileInput);
 //        System.out.println(root);
+
+        FileReader fr = new FileReader(fileInput);
+        System.out.println(fr.returnList());
 
     }
 }
