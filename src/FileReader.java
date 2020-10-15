@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -13,19 +15,23 @@ import java.util.Scanner;
 public class FileReader {
     final File root = new File(Thread.currentThread().getContextClassLoader().getResource("").toURI());
     private File file;
-    List<Integer> myList = new ArrayList<>();
+    List<String> myList = new ArrayList<>();
 
+    /**
+     *
+     * @param fileName
+     * @throws URISyntaxException
+     */
     public FileReader(String fileName) throws URISyntaxException {
         file = new File(root, fileName);
         try {
             Scanner myReader = new Scanner(file);
-            while (myReader.hasNextInt()) {
-                myList.add(myReader.nextInt());
+            while (myReader.hasNext()) {
+                myList.add(myReader.next());
             }
             myReader.close();
         } catch(IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -34,11 +40,34 @@ public class FileReader {
     }
 
     public boolean checkFile() {
+        for(String number:myList) {
+            if ((isInteger(number)) && (Integer.parseInt(number) >= 0)) {
+//                System.out.println(number);
+            } else {
+                return false;
+            }
+        }
         return true;
     }
 
-    public List<Integer> returnList() {
+    public List<String> returnList() {
         return myList;
+    }
+
+    // TO CHECK IF ITS AN INTEGER
+    public static boolean isInteger(Object object) {
+        if(object instanceof Integer) {
+            return true;
+        } else {
+            String string = object.toString();
+
+            try {
+                Integer.parseInt(string);
+            } catch(Exception e) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

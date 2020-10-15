@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 public class CardGame {
 
+    /**
+     *
+     * @param args
+     * @throws FileNotFoundException
+     * @throws URISyntaxException
+     */
     public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
         File root = new File(Thread.currentThread().getContextClassLoader().getResource("").toURI());
         Scanner scanner = new Scanner(System.in);
@@ -29,8 +35,11 @@ public class CardGame {
             File file = new File(root, fileInput);
             // checks if its txt file
             if (fileInput.contains(".txt")) {
+                FileReader fr = new FileReader(fileInput);
                 // checks if the file exist
-                if (file.exists()) {
+//                System.out.println(fileInput);
+                if (file.exists() && fr.checkFile()) {
+                    System.out.println(fr.myList);
                     break;
                 } else {
                     System.out.println("File not found!");
@@ -45,8 +54,9 @@ public class CardGame {
         System.out.println(fileInput);
 //        System.out.println(root);
 
-        FileReader fr = new FileReader(fileInput);
-        System.out.println(fr.returnList());
+//        FileReader fr = new FileReader(fileInput);
+//        System.out.println(fr.returnList());
+//        fr.checkFile();
 
     }
 }
