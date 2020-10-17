@@ -1,20 +1,17 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
 public class CardGame {
-
+    public static int numberOfPlayers;
     /**
      *
      * @param args
-     * @throws FileNotFoundException
      * @throws URISyntaxException
      */
-    public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
+    public static void main(String[] args) throws URISyntaxException {
         File root = new File(Thread.currentThread().getContextClassLoader().getResource("").toURI());
         Scanner scanner = new Scanner(System.in);
-        int numberOfPlayers;
         String fileInput;
 
         while (true) {
@@ -36,13 +33,12 @@ public class CardGame {
             // checks if its txt file
             if (fileInput.contains(".txt")) {
                 FileReader fr = new FileReader(fileInput);
-                // checks if the file exist
-//                System.out.println(fileInput);
-                if (file.exists() && fr.checkFile()) {
-                    System.out.println(fr.myList);
+                // checks if the file exists and is correct format
+                if (file.exists() && fr.checkFileFormat()) {
+                    System.out.println(fr.getListOfNumbers());
                     break;
                 } else {
-                    System.out.println("File not found!");
+                    System.out.println("Files doesn't exist or incorrect file format!");
                 }
             } else {
                 System.out.println("Invalid input!");
@@ -53,6 +49,9 @@ public class CardGame {
         System.out.println(numberOfPlayers);
         System.out.println(fileInput);
 //        System.out.println(root);
+        CardDeck deck1 = new CardDeck();
+        Player a = new Player(deck1);
+        System.out.println(a.getCurrentCards());
 
 //        FileReader fr = new FileReader(fileInput);
 //        System.out.println(fr.returnList());
