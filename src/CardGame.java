@@ -36,6 +36,7 @@ public class CardGame {
                 // checks if the file exists and is correct format
                 if (file.exists() && fr.checkFileFormat()) {
                     System.out.println(fr.getListOfNumbers());
+                    System.out.println(fr.getListOfNumbers().get(0) + 1);
                     break;
                 } else {
                     System.out.println("Files doesn't exist or incorrect file format!");

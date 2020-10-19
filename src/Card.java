@@ -1,8 +1,8 @@
 public class Card {
     private int number;
 
-    public Card() {
-
+    public Card(int num) {
+        number = num;
     }
 
 }

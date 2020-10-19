@@ -2,10 +2,9 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private ArrayList<Card> currentHand;
+    private Card[] currentHand = new Card[4];
     private CardDeck deck;
     private boolean isPlaying = false;
-
 
     public Player(CardDeck d) {
         deck = d;
@@ -16,7 +15,7 @@ public class Player {
      * @return - plyer draws a card from the deck
      */
     public Card drawCard() {
-        Card card = new Card();
+        Card card = new Card(2);
         return card;
     }
 
@@ -24,7 +23,7 @@ public class Player {
      *
      * @return - cards in player's hand
      */
-    public ArrayList<Card> getCurrentCards() {
+    public Card[] getCurrentCards() {
         return currentHand;
     }
 
@@ -34,5 +33,9 @@ public class Player {
      */
     public CardDeck getDeck() {
         return deck;
+    }
+
+    public void pickUp(Card c){
+
     }
 }
