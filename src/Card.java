@@ -5,4 +5,7 @@ public class Card {
         number = num;
     }
 
+    public int getNumber() {
+        return number;
+    }
 }

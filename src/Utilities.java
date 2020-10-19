@@ -19,4 +19,17 @@ public final class Utilities {
         return true;
     }
 
+    /**
+     *
+     * @param numberList - an array of integers
+     * @return - takes an array of integers and converts it into an array of cards
+     */
+    public static Card[] intToCardArray(int[] numberList) {
+        Card[] cardList = new Card[numberList.length];
+        for(int i = 0; i < numberList.length; i++) {
+            cardList[i] = new Card(numberList[i]);
+        }
+        return cardList;
+    }
+
 }

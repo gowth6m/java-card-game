@@ -26,6 +26,7 @@ public class FileReader {
             myReader.close();
         } catch(IOException e) {
             // e.printStackTrace();
+            System.out.println("ERROR IN CODE (FileReader:instantiation)");
         }
     }
 
@@ -41,8 +42,16 @@ public class FileReader {
      *
      * @return - the list of numbers from the input pack as a list of strings
      */
-    public List<String> getListOfNumbers() {
-        return listOfNumbers;
+    public List<Integer> getListOfNumbers() {
+        List<Integer> numbers = new ArrayList<>();
+        for (String s:listOfNumbers) {
+            try {
+                numbers.add(Integer.parseInt(s));
+            } catch(Exception e) {
+                System.out.println("ERROR IN CODE (FileReader:getListOfNumbers)");
+            }
+        }
+        return numbers;
     }
 
     /**

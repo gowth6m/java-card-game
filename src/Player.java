@@ -12,7 +12,7 @@ public class Player {
 
     /**
      *
-     * @return - plyer draws a card from the deck
+     * @return - player draws a card from the deck
      */
     public Card drawCard() {
         Card card = new Card(2);
@@ -21,9 +21,17 @@ public class Player {
 
     /**
      *
+     * @param currentHand
+     */
+    public void setCurrentHand(Card[] currentHand) {
+        this.currentHand = currentHand;
+    }
+
+    /**
+     *
      * @return - cards in player's hand
      */
-    public Card[] getCurrentCards() {
+    public Card[] getCurrentHand() {
         return currentHand;
     }
 
@@ -35,6 +43,10 @@ public class Player {
         return deck;
     }
 
+    /**
+     *
+     * @param c
+     */
     public void pickUp(Card c){
 
     }
