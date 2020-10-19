@@ -1,8 +1,13 @@
 public class Card {
-    private int number;
 
-    public Card(int num) {
-        number = num;
+    private int value;
+
+    public Card(int v) {
+        value = v;
+    }
+
+    public int getValue(){
+        return value;
     }
 
 }
