@@ -6,26 +6,27 @@ public class Player {
     private CardDeck deck;
     private boolean isPlaying = false;
 
-    public Player(CardDeck d) {
-        deck = d;
+    public Player() {
+
     }
 
     /**
      *
      * @return - player draws a card from the deck
      */
-    public Card drawCard() {
-        Card card = new Card(2);
-        return card;
-    }
+    public void drawCard() { }
 
     /**
      *
      * @param currentHand
      */
-    public void setCurrentHand(Card[] currentHand) {
-        this.currentHand = currentHand;
-    }
+    public void setCurrentHand(Card[] currentHand) { this.currentHand = currentHand; }
+
+    /**
+     *
+     * @param deck
+     */
+    public void setDeck(CardDeck deck) { this.deck = deck; }
 
     /**
      *
@@ -39,15 +40,6 @@ public class Player {
      *
      * @return - a deck from the pack that player can drawn from
      */
-    public CardDeck getDeck() {
-        return deck;
-    }
+    public CardDeck getDeck() { return deck; }
 
-    /**
-     *
-     * @param c
-     */
-    public void pickUp(Card c){
-
-    }
 }

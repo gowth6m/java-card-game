@@ -1,9 +1,11 @@
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CardGame {
     public static int numberOfPlayers;
+    public static List<Integer> inputPackNumbers;
     /**
      *
      * @param args
@@ -35,8 +37,8 @@ public class CardGame {
                 FileReader fr = new FileReader(fileInput);
                 // checks if the file exists and is correct format
                 if (file.exists() && fr.checkFileFormat()) {
+                    inputPackNumbers = fr.getListOfNumbers();
                     System.out.println(fr.getListOfNumbers());
-//                    System.out.println(fr.getListOfNumbers().get(0) + 1);
                     break;
                 } else {
                     System.out.println("Files doesn't exist or incorrect file format!");
@@ -46,17 +48,37 @@ public class CardGame {
             }
         }
 
-        // testing stuff here
-        System.out.println(numberOfPlayers);
-        System.out.println(fileInput);
-//        System.out.println(root);
-        CardDeck deck1 = new CardDeck();
-        Player a = new Player(deck1);
-        System.out.println(a.getCurrentHand());
+        // ======== TESTING ========================================
+        // System.out.println(numberOfPlayers);
+//        System.out.println(fileInput);
 
-//        FileReader fr = new FileReader(fileInput);
-//        System.out.println(fr.returnList());
-//        fr.checkFile();
+        // ======= TESTING for Dealer methods =====================
+
+        // >>>>>>>>> !!!!! READ THIS:!!!!!! <<<<<<<<<<<
+        // for 2 players, test with t2.txt
+        // for 4 players, test with t4.txt
+
+        // creating player list
+        Player[] players = new Player[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players[i] = new Player();
+        }
+
+        Dealer.dealCardDeck(inputPackNumbers, players);
+        Dealer.dealPlayerCurrentHand(inputPackNumbers, players);
+
+        for(Player p: players) {
+            System.out.println(p + " Player Hand:");
+            for(Card c:p.getCurrentHand()) {
+                System.out.print(c.getNumber()+ ", ");
+            }
+            System.out.println("\n"+"Card Deck:");
+
+            for(Card c:p.getDeck().getCards()) {
+                System.out.print(c.getNumber()+ ", ");
+            }
+            System.out.println("\n");
+        }
 
     }
 }

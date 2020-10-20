@@ -25,7 +25,6 @@ public class FileReader {
             }
             myReader.close();
         } catch(IOException e) {
-            // e.printStackTrace();
             System.out.println("ERROR IN CODE (FileReader:instantiation)");
         }
     }
