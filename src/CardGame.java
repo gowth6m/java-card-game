@@ -49,10 +49,7 @@ public class CardGame {
         }
 
         // ======== TESTING ========================================
-        // System.out.println(numberOfPlayers);
-//        System.out.println(fileInput);
-
-        // ======= TESTING for Dealer methods =====================
+        // ======== TESTING for Dealer methods =====================
 
         // >>>>>>>>> !!!!! READ THIS:!!!!!! <<<<<<<<<<<
         // for 2 players, test with t2.txt

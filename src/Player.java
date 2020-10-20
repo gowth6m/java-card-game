@@ -6,9 +6,7 @@ public class Player {
     private CardDeck deck;
     private boolean isPlaying = false;
 
-    public Player() {
-
-    }
+    public Player() { }
 
     /**
      *
@@ -18,13 +16,13 @@ public class Player {
 
     /**
      *
-     * @param currentHand
+     * @param currentHand - cards that player currently holds (max: 4)
      */
     public void setCurrentHand(Card[] currentHand) { this.currentHand = currentHand; }
 
     /**
      *
-     * @param deck
+     * @param deck - this is the set that player picks cards from
      */
     public void setDeck(CardDeck deck) { this.deck = deck; }
 

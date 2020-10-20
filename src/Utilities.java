@@ -51,8 +51,8 @@ public final class Utilities {
 
     /**
      *
-     * @param list
-     * @return
+     * @param list - takes in a list.
+     * @return - gives 2 list, can access by returnValue[0] or returnValue[1]
      */
     public static List[] splitList(List<String> list) {
         // find size of the list and put in size
