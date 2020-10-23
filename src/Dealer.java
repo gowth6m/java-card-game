@@ -2,12 +2,9 @@ public class Dealer {
 
     public Dealer(){}
 
-    public static int[][] deal(){
+    public static int[][][] deal(int[] pack, int numberOfPlayers){
 
-        int[] pack = {14, 15, 2, 3, 4, 5, 1, 3, 553, 52, 5, 25, 2, 5, 25, 25};
-        int numberOfPlayers = 2;
-
-        int[][] result = new int[numberOfPlayers*2][4];
+        int[][][] result = new int[2][numberOfPlayers][4];
         int[] cards;
 
         for(int i = 0; i < numberOfPlayers; i++){
@@ -15,7 +12,7 @@ public class Dealer {
             for(int j = 0; j < 4; j++){
                 cards[j] = pack[i+(j*numberOfPlayers)];
             }
-            result[i] = cards;
+            result[0][i] = cards;
         }
 
         for(int i = numberOfPlayers*4; i < numberOfPlayers*5; i++){
@@ -23,15 +20,11 @@ public class Dealer {
             for(int j = 0; j < 4; j++){
                 cards[j] = pack[i+(j*numberOfPlayers)];
             }
-            result[i - (numberOfPlayers*3)] = cards;
+            result[1][i - (numberOfPlayers*4)] = cards;
         }
 
         return result;
 
-    }
-
-    public static void main(String [] args){
-        deal();
     }
 
 }
