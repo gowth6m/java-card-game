@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-
-public class Player {
+public class Player implements Runnable {
 
     private Card[] currentHand = new Card[4];
     private CardDeck deck;
@@ -12,7 +10,15 @@ public class Player {
      *
      * @return - player draws a card from the deck
      */
-    public void drawCard() { }
+    public void drawCard() {
+    }
+
+    /**
+     *
+     * @param card - the card that the player wants to remove
+     */
+    public void discardCard(Card card) {
+    }
 
     /**
      *
@@ -40,4 +46,27 @@ public class Player {
      */
     public CardDeck getDeck() { return deck; }
 
+    // THREAD TESTING FUNCTIONS
+    public void testThread() {
+        for (int i = 0; i < 20; i++ ) {
+            System.out.println("Running thread: " + this.toString());
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) { }
+
+        }
+    }
+
+    public synchronized void syncTestThread() {
+        for (int i = 0; i < 10; i++ ) {
+            System.out.println("Sync test --------------------- " + this.toString());
+        }
+    }
+
+    @Override
+    public void run() {
+        syncTestThread();
+        testThread();
+//        syncTestThread();
+    }
 }
