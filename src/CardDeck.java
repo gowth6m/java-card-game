@@ -63,4 +63,20 @@ public class CardDeck {
         throw new CardValueNotInDeckException();
     }
 
+    /**
+     * Removes a card from the top of the deck.
+     * @return Removed Card object.
+     */
+    public Card pop() {
+        return cards.remove(0);
+    }
+
+    /**
+     * Adds a card to the bottom of the deck.
+     * @param c Card to add to bottom of deck.
+     */
+    public void push(Card c){
+        cards.add(c);
+    }
+
 }

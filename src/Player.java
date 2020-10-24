@@ -2,40 +2,32 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private Card[] currentHand = new Card[4];
+    private CardDeck hand;
     private CardDeck deck;
-    private boolean isPlaying = false;
 
-    public Player(CardDeck d) {
+    /**
+     * Constructs an instance of player with their initial hand and deck values.
+     * @param h CardDeck representing initial player hand.
+     * @param d CardDeck representing initial player deck.
+     */
+    public Player(CardDeck h, CardDeck d) {
+        hand = h;
         deck = d;
     }
 
     /**
-     *
-     * @return - plyer draws a card from the deck
+     * Draws a card from the player's deck.
      */
-    public Card drawCard() {
-        Card card = new Card(2);
-        return card;
+    public void drawCard() {
+        hand.addCard(deck.pop());
     }
 
     /**
-     *
-     * @return - cards in player's hand
+     * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
-    public Card[] getCurrentCards() {
-        return currentHand;
-    }
-
-    /**
-     *
-     * @return - a deck from the pack that player can drawn from
-     */
-    public CardDeck getDeck() {
-        return deck;
-    }
-
-    public void pickUp(Card c){
+    // TODO
+    public void discardCard() {
 
     }
+
 }
