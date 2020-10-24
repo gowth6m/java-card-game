@@ -3,13 +3,14 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class FileReader {
 
-    final File root = new File(Thread.currentThread().getContextClassLoader().getResource("").toURI());
-    private File file;
-    private List<String> listOfNumbers = new ArrayList<>();
+    final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
+    private final File file;
+    private final List<String> listOfNumbers = new ArrayList<>();
 
     /**
      *
@@ -25,16 +26,8 @@ public class FileReader {
             }
             myReader.close();
         } catch(IOException e) {
-            System.out.println("ERROR IN CODE (FileReader:instantiation)");
+            // System.out.println("ERROR IN CODE (FileReader:instantiation)");
         }
-    }
-
-    /**
-     *
-     * @return - file of the input pack
-     */
-    public File getFile() {
-        return file;
     }
 
     /**
@@ -60,6 +53,7 @@ public class FileReader {
     public boolean checkFileFormat() {
         for(String number:listOfNumbers) {
             if ((Utilities.isInteger(number)) && (Integer.parseInt(number) >= 0) && (this.getListOfNumbers().size() == 8*CardGame.numberOfPlayers)) {
+                return true;
             } else {
                 // System.out.println("Incorrect file format!");
                 return false;

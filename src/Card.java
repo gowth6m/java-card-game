@@ -1,11 +1,21 @@
 public class Card {
-    private int number;
 
-    public Card(int num) {
-        number = num;
+    private final int value;
+
+    /**
+     *
+     * @param v - value of the card
+     */
+    public Card(int v) {
+        value = v;
     }
 
-    public int getNumber() {
-        return number;
+    /**
+     *
+     * @return value of the card
+     */
+    public int getValue(){
+        return value;
     }
+
 }

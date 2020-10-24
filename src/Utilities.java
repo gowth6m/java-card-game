@@ -40,29 +40,28 @@ public final class Utilities {
      * @param numberList - an array of integers
      * @return - takes an array of integers and converts it into an arrayList of cards.
      */
-    public static ArrayList intArrToCardArrList(int[] numberList) {
+    public static ArrayList<Card> intArrToCardArrList(int[] numberList) {
         ArrayList<Card> cardList = new ArrayList<>();
-        for(int i=0; i < numberList.length; i++) {
-            Card temp = new Card(numberList[i]);
+        for (int j : numberList) {
+            Card temp = new Card(j);
             cardList.add(temp);
         }
         return cardList;
     }
 
     /**
+     * Takes in a list of Integer and returns an array of int
      *
-     * @param list - takes in a list.
-     * @return - gives 2 list, can access by returnValue[0] or returnValue[1]
+     * @param integerList - takes in a list of integer
+     * @return an array of int
      */
-    public static List[] splitList(List<String> list) {
-        // find size of the list and put in size
-        int size = list.size();
-
-        List<String> first = new ArrayList<>(list.subList(0, (size) / 2));
-        List<String> second = new ArrayList<>(list.subList((size) / 2, size));
-
-        // return an List of array
-        return new List[] { first, second };
+    public static int[] intArrToIntList(List<Integer> integerList) {
+        int size = integerList.size();
+        int[] intArray = new int[size];
+        Integer[] temp = integerList.toArray(new Integer[size]);
+        for (int n = 0; n < size; ++n) {
+            intArray[n] = temp[n];
+        }
+        return intArray;
     }
-
 }

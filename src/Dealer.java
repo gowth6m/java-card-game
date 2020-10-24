@@ -1,42 +1,35 @@
-import java.util.List;
-
 public class Dealer {
-    public Dealer() {}
+
+    public Dealer(){ }
 
     /**
+     * Deals cards an array of card values to the specified number of players.
      *
-     * @param inputPackList - list of input pack numbers
-     * @param players - array of current players in the game
+     * @param pack Integer array input of card values from file. Should be 8 * numberOfPlayers.
+     * @param numberOfPlayers Number of players to deal to.
+     * @return [[[player1hand, player2hand, ...], [player1deck, player2deck, ...]]
      */
-    public static void dealPlayerCurrentHand(List inputPackList, Player[] players){
-        int numberOfPlayers = players.length;
+    public static int[][][] deal(int[] pack, int numberOfPlayers) {
+
+        int[][][] result = new int[2][numberOfPlayers][4];
+        int[] cards;
 
         for(int i = 0; i < numberOfPlayers; i++){
-            int[] temp = new int[4];
+            cards = new int[4];
             for(int j = 0; j < 4; j++){
-                temp[j] = (int) inputPackList.get(i + (j * numberOfPlayers));
+                cards[j] = pack[i+(j*numberOfPlayers)];
             }
-            players[i].setCurrentHand(Utilities.intToCardArray(temp));
+            result[0][i] = cards;
         }
+
+        for(int i = numberOfPlayers*4; i < numberOfPlayers*5; i++) {
+            cards = new int[4];
+            for(int j = 0; j < 4; j++){
+                cards[j] = pack[i+(j*numberOfPlayers)];
+            }
+            result[1][i - (numberOfPlayers*4)] = cards;
+        }
+        return result;
     }
 
-    /**
-     *
-     * @param inputPackList
-     * @param players
-     */
-    public static void dealCardDeck(List inputPackList, Player[] players){
-        int numberOfPlayers = players.length;
-        // getting the second half of the list since first half of the list is used for player's current hand
-        List secondHalfInputPack = Utilities.splitList(inputPackList)[1];
-
-        for(int i = 0; i < numberOfPlayers; i++) {
-            int[] temp = new int[4];
-            for(int j = 0; j < 4; j++){
-                temp[j] = (int) secondHalfInputPack.get(i + (j * numberOfPlayers));
-            }
-            CardDeck cd = new CardDeck(temp);
-            players[i].setDeck(cd);
-        }
-    }
 }
