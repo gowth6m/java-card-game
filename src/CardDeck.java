@@ -23,6 +23,10 @@ public class CardDeck {
         }
     }
 
+    public ArrayList<Card> getCards(){
+        return cards;
+    }
+
     /**
      * Adds a card to a CardDeck.
      * @param c Card object to add to deck/hand.
@@ -81,6 +85,7 @@ public class CardDeck {
 
     /**
      * Finds the most common card value in the CardDeck.
+     * Will return -1 if no card value is found more than once.
      * @return Most common face value.
      */
     public int mode(){
@@ -97,7 +102,11 @@ public class CardDeck {
                 maxValue = c1.getValue();
             }
         }
-        return maxValue;
+        if(maxValue == -1) {
+            return cards.get(0).getValue();
+        } else {
+            return maxValue;
+        }
     }
 
 }

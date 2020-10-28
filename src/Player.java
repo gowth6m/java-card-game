@@ -40,16 +40,8 @@ public class Player{
      * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
     // TODO
-    public void discardCard() {
-
-    }
-
-    public int getPrefDenom(){
-        int mode = hand.mode();
-        if(mode > -1){
-            return mode;
-        } else {
-            return -1;
-        }
+    public void discardCard(Player p, Card c) {
+        p.getDeck().addCard(c);
+        hand.removeCard(c);
     }
 }
