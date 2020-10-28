@@ -7,9 +7,11 @@ import java.util.Scanner;
 public class CardGame {
     public static int numberOfPlayers;
     private List<Integer> inputPackNumbers = new ArrayList<>();
-    private final List<Player> listOfPlayers = new ArrayList<>();
+    public static final List<Player> listOfPlayers = new ArrayList<>();
     private final List<CardDeck> listOfCardDecks = new ArrayList<>();
-    private final List<CardDeck> listOfPlayerHands = new ArrayList<>();
+    private final List<CardHand> listOfPlayerHands = new ArrayList<>();
+
+    public static volatile boolean gameOver = false;
 
     public CardGame() { }
 
@@ -65,7 +67,7 @@ public class CardGame {
     public void initialSetUp() {
         //
         for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[0]) {
-            this.listOfPlayerHands.add(new CardDeck(list));
+            this.listOfPlayerHands.add(new CardHand(list));
         }
 
         for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[1]) {
@@ -79,6 +81,15 @@ public class CardGame {
 
     }
 
+    public static Player getNextPlayer(Player p){
+        int i = CardGame.listOfPlayers.indexOf(p) + 1;
+        if(i > CardGame.listOfPlayers.size() - 1){
+            return CardGame.listOfPlayers.get(0);
+        } else {
+            return CardGame.listOfPlayers.get(i);
+        }
+    }
+
     /**
      *
      * @param args
@@ -89,6 +100,8 @@ public class CardGame {
         game.askForInputPack();
         game.initialSetUp();
         // TESTING STUFF
-        //System.out.println(game.listOfPlayers.get(0).getPrefDenom());
+        for(Player p:game.listOfPlayers){
+            (new Thread(p)).start();
+        }
     }
 }

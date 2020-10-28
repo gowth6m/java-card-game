@@ -11,7 +11,12 @@ public class CardDeck {
         }
     }
 
-    private ArrayList<Card> cards = new ArrayList<>();
+    protected ArrayList<Card> cards = new ArrayList<>();
+
+    /**
+     * Default constructor.
+     */
+    public CardDeck() {}
 
     /**
      * Constructs an instance of CardDeck with the given card values.
@@ -31,7 +36,7 @@ public class CardDeck {
      * Adds a card to a CardDeck.
      * @param c Card object to add to deck/hand.
      */
-    public void addCard(Card c){
+    public synchronized void addCard(Card c){
         cards.add(c);
     }
 
@@ -39,7 +44,7 @@ public class CardDeck {
      * Removes a card from a CardDeck.
      * @param c Card object to remove.
      */
-    public void removeCard(Card c){
+    public synchronized void removeCard(Card c){
         cards.remove(c);
     }
 
@@ -84,29 +89,10 @@ public class CardDeck {
     }
 
     /**
-     * Finds the most common card value in the CardDeck.
-     * Will return -1 if no card value is found more than once.
-     * @return Most common face value.
+     * Checks if CardDeck object contains any cards.
+     * @return If CardDeck is empty.
      */
-    public int mode(){
-        int maxCount = 1, maxValue = -1;
-        for(Card c1:cards){
-            int count = 0;
-            for(Card c2:cards){
-                if(c1.getValue() == c2.getValue()){
-                    count++;
-                }
-            }
-            if(count > maxCount){
-                maxCount = count;
-                maxValue = c1.getValue();
-            }
-        }
-        if(maxValue == -1) {
-            return cards.get(0).getValue();
-        } else {
-            return maxValue;
-        }
+    public boolean isEmpty() {
+        return cards.isEmpty();
     }
-
 }
