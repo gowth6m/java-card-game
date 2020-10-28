@@ -79,4 +79,25 @@ public class CardDeck {
         cards.add(c);
     }
 
+    /**
+     * Finds the most common card value in the CardDeck.
+     * @return Most common face value.
+     */
+    public int mode(){
+        int maxCount = 1, maxValue = -1;
+        for(Card c1:cards){
+            int count = 0;
+            for(Card c2:cards){
+                if(c1.getValue() == c2.getValue()){
+                    count++;
+                }
+            }
+            if(count > maxCount){
+                maxCount = count;
+                maxValue = c1.getValue();
+            }
+        }
+        return maxValue;
+    }
+
 }

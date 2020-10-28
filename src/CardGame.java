@@ -88,8 +88,7 @@ public class CardGame {
         CardGame game = new CardGame();
         game.askForInputPack();
         game.initialSetUp();
-
         // TESTING STUFF
-//        game.listOfPlayers.get(0).drawCard();
+        //System.out.println(game.listOfPlayers.get(0).getPrefDenom());
     }
 }

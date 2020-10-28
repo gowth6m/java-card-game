@@ -1,4 +1,4 @@
-public class Player implements Runnable {
+public class Player{
 
     private CardDeck hand;
     private CardDeck deck;
@@ -42,5 +42,14 @@ public class Player implements Runnable {
     // TODO
     public void discardCard() {
 
+    }
+
+    public int getPrefDenom(){
+        int mode = hand.mode();
+        if(mode > -1){
+            return mode;
+        } else {
+            return -1;
+        }
     }
 }
