@@ -54,14 +54,14 @@ public class Player implements Runnable{
     /**
      * Draws a card from the player's deck.
      */
-    public void drawCard() {
+    public synchronized void drawCard() {
         hand.addCard(deck.pop());
     }
 
     /**
      * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
-    public void discardCard(Player p, Card c) {
+    public synchronized void discardCard(Player p, Card c) {
         p.getDeck().addCard(c);
         hand.removeCard(c);
     }

@@ -11,7 +11,7 @@ public class CardDeck {
         }
     }
 
-    protected ArrayList<Card> cards = new ArrayList<>();
+    protected volatile ArrayList<Card> cards = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -76,7 +76,7 @@ public class CardDeck {
      * Removes a card from the top of the deck.
      * @return Removed Card object.
      */
-    public Card pop() {
+    public synchronized Card pop() {
         return cards.remove(0);
     }
 
