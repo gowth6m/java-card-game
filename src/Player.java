@@ -32,7 +32,6 @@ public class Player implements Runnable{
                 System.out.println("Discard card of " + this);
                 discardCard(CardGame.getNextPlayer(this), c);
             }
-
         }
     }
 
