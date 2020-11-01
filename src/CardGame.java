@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class CardGame {
     /**
      * Hands out the initial hand and decks for each player.
      */
-    public void initialSetUp() {
+    public void initialSetUp() throws IOException {
         //
         for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[0]) {
             this.listOfPlayerHands.add(new CardHand(list));
@@ -81,6 +82,11 @@ public class CardGame {
 
     }
 
+    /**
+     * Returns the next player in the list, loops back to first player if on last player.
+     * @param p Current player
+     * @return Player next in line to current player
+     */
     public static Player getNextPlayer(Player p){
         int i = CardGame.listOfPlayers.indexOf(p) + 1;
         if(i > CardGame.listOfPlayers.size() - 1){
@@ -91,17 +97,51 @@ public class CardGame {
     }
 
     /**
+     * Returns the previous player in the list, loops to last player if on first player.
+     * @param p Current player
+     * @return Player previous to current player
+     */
+    public static Player getPrevPlayer(Player p){
+        int i = CardGame.listOfPlayers.indexOf(p) - 1;
+        if(i == -1){
+            return CardGame.listOfPlayers.get(listOfPlayers.size() - 1);
+        } else {
+            return CardGame.listOfPlayers.get(i);
+        }
+    }
+
+    /**
      *
      * @param args
      * @throws URISyntaxException
      */
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args) throws URISyntaxException, InterruptedException, IOException {
         CardGame game = new CardGame();
         game.askForInputPack();
         game.initialSetUp();
+
         // TESTING STUFF
         for(Player p:game.listOfPlayers){
             (new Thread(p)).start();
+            (new Thread(p)).join();
         }
+
+        // testing more
+//        listOfPlayers.get(0).drawCard();
+//        System.out.println(listOfPlayers.get(0).getHand().mode());
+//        System.out.println(listOfPlayers.get(0).getHand().mode());
+//        System.out.println(listOfPlayers.get(0).getHand().modeWithIndex()[0]);
+//        System.out.println(listOfPlayers.get(0).getHand().modeWithIndex()[1]);
+//
+//        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getDiscardingCard());
+//        listOfPlayers.get(1).drawCard();
+//        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getHand().randomCard(1));
+
+//        System.out.println(listOfPlayers.size());
+//        System.out.println(listOfPlayers);
+//        System.out.println(getNextPlayer(listOfPlayers.get(0)));
+//        System.out.println(getPrevPlayer(listOfPlayers.get(0)));
     }
 }
+
+// need to fix discard player

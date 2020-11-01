@@ -28,16 +28,12 @@ public class CardDeck {
         }
     }
 
-    public ArrayList<Card> getCards(){
-        return cards;
-    }
-
     /**
      * Adds a card to a CardDeck.
      * @param c Card object to add to deck/hand.
      */
     public synchronized void addCard(Card c){
-        cards.add(c);
+        this.cards.add(c);
     }
 
     /**
@@ -45,7 +41,31 @@ public class CardDeck {
      * @param c Card object to remove.
      */
     public synchronized void removeCard(Card c){
-        cards.remove(c);
+        this.cards.remove(c);
+    }
+
+    /**
+     * Removes a card from the top of the deck.
+     * @return Removed Card object.
+     */
+    public synchronized Card pop() {
+        return cards.remove(0);
+    }
+
+    /**
+     * Adds a card to the bottom of the deck.
+     * @param c Card to add to bottom of deck.
+     */
+    public void push(Card c){
+        cards.add(c);
+    }
+
+    /**
+     * Checks if CardDeck object contains any cards.
+     * @return If CardDeck is empty.
+     */
+    public boolean isEmpty() {
+        return cards.isEmpty();
     }
 
     /**
@@ -72,27 +92,12 @@ public class CardDeck {
         throw new CardValueNotInDeckException();
     }
 
+    // Getter and Setter
     /**
-     * Removes a card from the top of the deck.
-     * @return Removed Card object.
+     * Getter method to return the cardDeck.
+     * @return The card deck
      */
-    public synchronized Card pop() {
-        return cards.remove(0);
-    }
-
-    /**
-     * Adds a card to the bottom of the deck.
-     * @param c Card to add to bottom of deck.
-     */
-    public void push(Card c){
-        cards.add(c);
-    }
-
-    /**
-     * Checks if CardDeck object contains any cards.
-     * @return If CardDeck is empty.
-     */
-    public boolean isEmpty() {
-        return cards.isEmpty();
+    public ArrayList<Card> getCards(){
+        return cards;
     }
 }

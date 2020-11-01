@@ -1,7 +1,12 @@
-public class Player implements Runnable{
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Random;
 
+public class Player implements Runnable{
+    private int playerNumber;
     private volatile CardHand hand;
     private volatile CardDeck deck;
+    private GameLogger logger = new GameLogger();
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
@@ -11,35 +16,93 @@ public class Player implements Runnable{
     public Player(CardHand h, CardDeck d) {
         this.hand = h;
         this.deck = d;
+        playerNumber = CardGame.listOfPlayers.size() + 1;
     }
 
     public void run(){
-        while(!deck.isEmpty()){
-            System.out.println("Starting run of " + this);
+        while(!this.deck.isEmpty() && !CardGame.gameOver){
+            // Logging to text file for testing
+            ArrayList<Integer> handList = new ArrayList<>();
+            ArrayList<Integer> deckList = new ArrayList<>();
+            try {
+                for(Card c: hand.getCards()) {
+                    handList.add(c.getValue());
+                }
+                logger.writeToFile(this.getPlayerNumber(),"Player hand: " + handList);
+
+                for(Card c: deck.getCards()) {
+                    deckList.add(c.getValue());
+                }
+                logger.writeToFile(this.getPlayerNumber(),"Player deck: " + deckList);
+            } catch (ConcurrentModificationException e) { }
             if(this.hasWon()){
-                System.out.println("Player has won.");
+                System.out.println("Player "+ this.getPlayerNumber() + " has won.");
                 CardGame.gameOver = true;
             } else {
-                System.out.println("Draw card of " + this);
-                drawCard();
-                int prefValue = hand.mode();
-                Card c;
-                if(prefValue == -1){
-                    c = hand.randomCard();
-                } else {
-                    c = hand.randomCard(prefValue);
-                }
-                System.out.println("Discard card of " + this);
-                discardCard(CardGame.getNextPlayer(this), c);
+                System.out.println("Draw card of " + "Player "+ this.getPlayerNumber());
+                this.drawCard();
+                System.out.println("Discard card of " + "Player "+ this.getPlayerNumber());
+                discardCard(this.getDiscardingCard());
             }
         }
     }
 
     /**
+     * Draws a card from the player's deck.
+     */
+    public synchronized void drawCard() {
+        logger.writeToFile(this.getPlayerNumber(),("Drew a card of " + this.deck.getCards().get(0).getValue()));
+        this.hand.addCard(this.deck.pop());
+    }
+
+    /**
+     * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
+     */
+    public synchronized void discardCard(Card c) {
+        CardGame.getNextPlayer(this).getDeck().addCard(c);
+        logger.writeToFile(this.getPlayerNumber(),("Discarded " + c.getValue()));
+        this.hand.removeCard(c);
+    }
+
+    // TODO
+    /**
+     * Checks if player has a winning hand (4 of the same card)
+     * @return True if player has a winning hand.
+     */
+    public boolean hasWon() {
+        return (hand.isWinningHand() && hand.getCards().size() == 4);
+//        return hand.isWinningHand();
+    }
+
+    /**
+     * Gets the discarding card by checking mode.
+     * @return The card the player should be discarding.
+     */
+    public Card getDiscardingCard() {
+        int prefValue = hand.modeWithIndex()[0];
+        Card c;
+        Random r = new Random();
+        if(prefValue == -1){
+            c = this.getHand().cards.get(r.nextInt(this.getHand().cards.size()));
+        } else {
+            int index = 0;
+            while(true){
+                index = r.nextInt(this.getHand().cards.size());
+                if(index != hand.modeWithIndex()[1]) {
+                    break;
+                }
+            }
+            c = this.getHand().cards.get(index);
+        }
+        return c;
+    }
+
+    // Getter & Setter
+    /**
      * Getter method for player hand.
      * @return CardDeck object containing player hand.
      */
-    public CardDeck getHand(){
+    public CardHand getHand(){
         return hand;
     }
 
@@ -52,22 +115,8 @@ public class Player implements Runnable{
     }
 
     /**
-     * Draws a card from the player's deck.
+     * Getter method for player number.
+     * @return The current player number.
      */
-    public synchronized void drawCard() {
-        hand.addCard(deck.pop());
-    }
-
-    /**
-     * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
-     */
-    public synchronized void discardCard(Player p, Card c) {
-        p.getDeck().addCard(c);
-        hand.removeCard(c);
-    }
-
-    public boolean hasWon() {
-        return hand.isWinningHand();
-    }
-
+    public int getPlayerNumber() {return playerNumber; }
 }
