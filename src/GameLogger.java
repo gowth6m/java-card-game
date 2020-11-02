@@ -6,13 +6,14 @@ public class GameLogger {
     public GameLogger() {}
 
     /**
-     * Logs the given string to text file for the corresponding player given by playerNumber.
-     * @param playerNumber - The players number.
-     * @param fileInput - This is the input that gets recorded on the text file.
+     * Logs the given string to text file for the corresponding player given by playerNumber
+     * @param name name of the text file
+     * @param playerNumber part of the text file name
+     * @param fileInput this is the input that gets recorded on the text file
      */
-    public void writeToFile(int playerNumber, String fileInput) {
+    public void writeToFile(String name ,int playerNumber, String fileInput) {
         try {
-            file = new File("player"+Integer.toString(playerNumber)+"_output");
+            file = new File(name + playerNumber +"_output");
             FileWriter fr = new FileWriter(file, true);
             BufferedWriter br = new BufferedWriter(fr);
             PrintWriter pr = new PrintWriter(br);
@@ -25,5 +26,4 @@ public class GameLogger {
             e.printStackTrace();
         }
     }
-
 }

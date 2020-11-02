@@ -92,6 +92,18 @@ public class CardDeck {
         throw new CardValueNotInDeckException();
     }
 
+    /**
+     * Gives the card values of the deck.
+     * @return ArrayList of card values of the deck
+     */
+    public ArrayList<Integer> getListOfCardValues() {
+        ArrayList<Integer> listOfValues = new ArrayList<>();
+        for (Card c:this.cards) {
+            listOfValues.add(c.getValue());
+        }
+        return listOfValues;
+    }
+
     // Getter and Setter
     /**
      * Getter method to return the cardDeck.

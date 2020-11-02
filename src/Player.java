@@ -1,14 +1,11 @@
-import jdk.jshell.execution.Util;
-
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 public class Player implements Runnable{
     private final int playerNumber;
     private volatile CardHand hand;
     private volatile CardDeck deck;
-    private final GameLogger logger = new GameLogger();
+    public final GameLogger logger = new GameLogger();
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
@@ -27,38 +24,42 @@ public class Player implements Runnable{
      */
     public void run(){
         while(!this.deck.isEmpty() && !CardGame.gameOver){
-            // Logging to text file for testing
-            ArrayList<Integer> handList = new ArrayList<>();
-            ArrayList<Integer> deckList = new ArrayList<>();
-            try {
-                for(Card c: hand.getCards()) {
-                    handList.add(c.getValue());
-                }
-                logger.writeToFile(this.getPlayerNumber(),"Player hand: " + handList);
-
-                for(Card c: deck.getCards()) {
-                    deckList.add(c.getValue());
-                }
-                logger.writeToFile(this.getPlayerNumber(),"Player deck: " + deckList);
-            } catch (ConcurrentModificationException ignored) { }
             // Thread loop
             if(this.hasWon()){
                 System.out.println("Player "+ this.getPlayerNumber() + " has won.");
                 CardGame.gameOver = true;
+                logger.writeToFile("player",this.getPlayerNumber(),"player " + this.getPlayerNumber() + " wins");
             } else {
 //                System.out.println("Draw card of " + "Player "+ this.getPlayerNumber());
                 this.drawCard();
 //                System.out.println("Discard card of " + "Player "+ this.getPlayerNumber());
                 discardCard(this.getDiscardingCard());
+
+                // Logging
+                logger.writeToFile("player",this.getPlayerNumber(),"player " + this.getPlayerNumber() + " current hand is " + hand.getListOfCardValues().toString()
+                        .replace(",", " ")
+                        .replace("[", "")
+                        .replace("]", ""));
+                logger.writeToFile("player",this.getPlayerNumber(),"deck: " + deck.getListOfCardValues().toString()
+                        .replace(",", " ")
+                        .replace("[", "")
+                        .replace("]", ""));
+                // TODO REMOVE THIS BEFORE SUBMIT
+                logger.writeToFile("player",this.getPlayerNumber(), "--------------------------------");
             }
         }
+        // logs the final deck in a separate deck text file.
+        logger.writeToFile("deck",this.getPlayerNumber(),"deck" + this.getPlayerNumber() + " contains " + deck.getListOfCardValues().toString()
+                .replace(",", " ")
+                .replace("[", "")
+                .replace("]", ""));
     }
 
     /**
      * Draws a card from the player's deck.
      */
     public synchronized void drawCard() {
-        logger.writeToFile(this.getPlayerNumber(),("Drew a card of " + this.deck.getCards().get(0).getValue()));
+        logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " draws a " + this.deck.getCards().get(0).getValue() + " from deck " + this.getPlayerNumber()));
         this.hand.addCard(this.deck.pop());
     }
 
@@ -67,8 +68,7 @@ public class Player implements Runnable{
      */
     public synchronized void discardCard(Card c) {
         CardGame.getNextPlayer(this).getDeck().addCard(c);
-        logger.writeToFile(this.getPlayerNumber(),("Discarded " + c.getValue()));
-        logger.writeToFile(this.getPlayerNumber(),("Mode " + this.getHand().mode()));
+        logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
         this.hand.removeCard(c);
     }
 

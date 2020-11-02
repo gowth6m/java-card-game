@@ -76,6 +76,13 @@ public class CardGame {
         for(int i = 0; i < numberOfPlayers; i++) {
             listOfPlayers.add(new Player(this.listOfPlayerHands.get(i), this.listOfCardDecks.get(i)));
         }
+        for(int i = 0; i < numberOfPlayers; i++) {
+            listOfPlayers.get(i).logger.writeToFile("player",listOfPlayers.get(i).getPlayerNumber(), "player " +
+                    listOfPlayers.get(i).getPlayerNumber()+" initial hand " + listOfPlayers.get(i).getDeck().getListOfCardValues().toString()
+                            .replace(",", " ")
+                            .replace("[", "")
+                            .replace("]", ""));
+        }
     }
 
     /**
@@ -93,20 +100,6 @@ public class CardGame {
     }
 
     /**
-     * Returns the previous player in the list, loops to last player if on first player.
-     * @param p Current player
-     * @return Player previous to current player
-     */
-    public static Player getPrevPlayer(Player p){
-        int i = CardGame.listOfPlayers.indexOf(p) - 1;
-        if(i == -1){
-            return CardGame.listOfPlayers.get(listOfPlayers.size() - 1);
-        } else {
-            return CardGame.listOfPlayers.get(i);
-        }
-    }
-
-    /**
      * Main method
      * @param args
      * @throws URISyntaxException
@@ -116,7 +109,7 @@ public class CardGame {
         // ------------------------------------------
         // TODO (For Testing Only)
 //        numberOfPlayers = 2;
-//        FileReader fr = new FileReader("p2.txt");
+//        FileReader fr = new FileReader("t2.txt");
 //        game.inputPackNumbers = fr.getListOfNumbers();
         // ------------------------------------------
         game.askForInputPack();
@@ -132,11 +125,6 @@ public class CardGame {
 //        for(Card c: listOfPlayers.get(0).getHand().getCards()) {
 //            System.out.print(c.getValue()+"  ");
 //        }
-//        System.out.println(listOfPlayers.get(0).getHand().mode());
-//        System.out.println(listOfPlayers.get(0).getHand().mode());
-//        System.out.println(listOfPlayers.get(0).getHand().modeWithIndex()[0]);
-//        System.out.println(listOfPlayers.get(0).getHand().modeWithIndex()[1]);
-//        System.out.println("-");
 //        System.out.println("Mode: "+listOfPlayers.get(0).getHand().listOfModeIndex());
 //        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getDiscardingCard());
 //        for(Card c: listOfPlayers.get(0).getHand().getCards()) {
@@ -153,11 +141,6 @@ public class CardGame {
 
 //        listOfPlayers.get(1).drawCard();
 //        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getHand().randomCard(1));
-
-//        System.out.println(listOfPlayers.size());
-//        System.out.println(listOfPlayers);
-//        System.out.println(getNextPlayer(listOfPlayers.get(0)));
-//        System.out.println(getPrevPlayer(listOfPlayers.get(0)));
     }
 }
 
