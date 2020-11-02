@@ -18,36 +18,35 @@ public class CardHand extends CardDeck {
      * Returns -1 if all card values are different.
      * @return Most common face value.
      */
-
-    /**
-     * Finds the mode value in player hand as first return of result.
-     * Also finds the index of that value.
-     * Eg: Result[0] for mode value.
-     * Eg: Result[1] for index of mode value.
-     * @return Result of mode value and its index.
-     */
-    public int[] modeWithIndex() {
-        int maxCount = 1, maxValue = -1, index = 0;
-        int[] result = new int[2];
-        for(Card a:cards) {
+    public int mode(){
+        int maxCount = 1, maxValue = -1;
+        for(Card c1:cards){
             int count = 0;
-            for(Card b:cards) {
-                if(a.getValue() == b.getValue()) {
+            for(Card c2:cards){
+                if(c1.getValue() == c2.getValue()){
                     count++;
                 }
             }
             if(count > maxCount){
                 maxCount = count;
-                maxValue = a.getValue();
+                maxValue = c1.getValue();
             }
         }
-        result[0] = maxValue;
+        return maxValue;
+    }
+
+    /**
+     * Finds the mode value in player hand and returns a list of index's that has mode value.
+     * @return List of index that has the value of mode.
+     */
+    public ArrayList<Integer> listOfModeIndex() {
+        int maxValue = mode();
+        ArrayList<Integer> result = new ArrayList<>();
         for(int i=0; i < cards.size(); i++) {
             if (cards.get(i).getValue() == maxValue) {
-                index = i;
+                result.add(i);
             }
         }
-        result[1] = index;
         return result;
     }
 
@@ -63,6 +62,7 @@ public class CardHand extends CardDeck {
         return true;
     }
 
+    // TODO (not using these anymore)
     /**
      * Returns random Card object from CardHand object.
      * @return Card.

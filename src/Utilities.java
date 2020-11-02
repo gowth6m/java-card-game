@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public final class Utilities {
     /**
-     *
-     * @param object - takes an object to checks if its an object of class Integer
-     * @return - true if the object is an instance of the class Integer
+     * Checks if the object is an integer.
+     * @param object takes an object to checks if its an object of class Integer
+     * @return true if the object is an instance of the class Integer
      */
     public static boolean isInteger(Object object) {
         if(object instanceof Integer) {
@@ -23,9 +24,9 @@ public final class Utilities {
     }
 
     /**
-     *
+     * Takes an array of integers and converts it into an array of cards.
      * @param numberList - an array of integers
-     * @return - takes an array of integers and converts it into an array of cards
+     * @return - array of cards
      */
     public static Card[] intToCardArray(int[] numberList) {
         Card[] cardList = new Card[numberList.length];
@@ -36,9 +37,9 @@ public final class Utilities {
     }
 
     /**
-     *
+     * Takes an array of integers and converts it into an arrayList of cards.
      * @param numberList - an array of integers
-     * @return - takes an array of integers and converts it into an arrayList of cards.
+     * @return - arrayList of cards.
      */
     public static ArrayList<Card> intArrToCardArrList(int[] numberList) {
         ArrayList<Card> cardList = new ArrayList<>();
@@ -63,5 +64,25 @@ public final class Utilities {
             intArray[n] = temp[n];
         }
         return intArray;
+    }
+
+    /**
+     * Gives a random number from a range excluding the given list of numbers.
+     * @param start start of range (inclusive)
+     * @param end end of range (exclusive)
+     * @param excludes numbers to exclude (numbers you do not want)
+     * @return the random number within start-end but not one of excludes
+     */
+    public static int nextIntInRangeButExclude(int start, int end, int... excludes){
+        int rangeLength = end - start - excludes.length;
+        Random r = new Random();
+        int randomInt = r.nextInt(rangeLength) + start;
+        for (int exclude : excludes) {
+            if (exclude > randomInt) {
+                return randomInt;
+            }
+            randomInt++;
+        }
+        return randomInt;
     }
 }

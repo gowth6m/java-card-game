@@ -13,8 +13,8 @@ public class FileReader {
     private final List<String> listOfNumbers = new ArrayList<>();
 
     /**
-     *
-     * @param fileName - name of the input pack by the player
+     * Constructor for FileReader
+     * @param fileName name of the input pack by the player
      * @throws URISyntaxException
      */
     public FileReader(String fileName) throws URISyntaxException {
@@ -25,14 +25,12 @@ public class FileReader {
                 listOfNumbers.add(myReader.next());
             }
             myReader.close();
-        } catch(IOException e) {
-            // System.out.println("ERROR IN CODE (FileReader:instantiation)");
-        }
+        } catch(IOException ignored) {}
     }
 
     /**
-     *
-     * @return - the list of numbers from the input pack as a list of strings
+     * Gets the list of numbers from input pack.
+     * @return the list of numbers from the input pack as a list of Integers.
      */
     public List<Integer> getListOfNumbers() {
         List<Integer> numbers = new ArrayList<>();
@@ -47,18 +45,33 @@ public class FileReader {
     }
 
     /**
-     *
+     * Checks the file format, whether it has the right amount of numbers.
      * @return - true if the file contains positive integers and the file has rows equal to 8 * number of players
      */
     public boolean checkFileFormat() {
         for(String number:listOfNumbers) {
-            if ((Utilities.isInteger(number)) && (Integer.parseInt(number) >= 0) && (this.getListOfNumbers().size() == 8*CardGame.numberOfPlayers)) {
-                return true;
-            } else {
-                // System.out.println("Incorrect file format!");
-                return false;
-            }
+            return (Utilities.isInteger(number)) && (Integer.parseInt(number) >= 0) && (this.getListOfNumbers().size() == 8 * CardGame.numberOfPlayers);
         }
         return true;
+    }
+
+    /**
+     * Checks if the game is winnable by checking if there are 4 of the same cards in the input pack.
+     * @return true if game is winnable, false if not.
+     */
+    public boolean isGameWinnable() {
+        boolean winnable = false;
+        for(int a:getListOfNumbers()) {
+            int counter = 0;
+            for(int b:getListOfNumbers()) {
+                if(a==b) {
+                    counter++;
+                }
+            }
+            if (counter >= 4) {
+                winnable = true;
+            }
+        }
+        return winnable;
     }
 }

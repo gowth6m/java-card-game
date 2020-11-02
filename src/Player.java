@@ -1,12 +1,14 @@
+import jdk.jshell.execution.Util;
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 public class Player implements Runnable{
-    private int playerNumber;
+    private final int playerNumber;
     private volatile CardHand hand;
     private volatile CardDeck deck;
-    private GameLogger logger = new GameLogger();
+    private final GameLogger logger = new GameLogger();
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
@@ -19,6 +21,10 @@ public class Player implements Runnable{
         playerNumber = CardGame.listOfPlayers.size() + 1;
     }
 
+    /**
+     * Loop of the actual game for a player.
+     * (check if deck is empty and if game is over) -> Draws card -> Discards card
+     */
     public void run(){
         while(!this.deck.isEmpty() && !CardGame.gameOver){
             // Logging to text file for testing
@@ -34,14 +40,15 @@ public class Player implements Runnable{
                     deckList.add(c.getValue());
                 }
                 logger.writeToFile(this.getPlayerNumber(),"Player deck: " + deckList);
-            } catch (ConcurrentModificationException e) { }
+            } catch (ConcurrentModificationException ignored) { }
+            // Thread loop
             if(this.hasWon()){
                 System.out.println("Player "+ this.getPlayerNumber() + " has won.");
                 CardGame.gameOver = true;
             } else {
-                System.out.println("Draw card of " + "Player "+ this.getPlayerNumber());
+//                System.out.println("Draw card of " + "Player "+ this.getPlayerNumber());
                 this.drawCard();
-                System.out.println("Discard card of " + "Player "+ this.getPlayerNumber());
+//                System.out.println("Discard card of " + "Player "+ this.getPlayerNumber());
                 discardCard(this.getDiscardingCard());
             }
         }
@@ -61,38 +68,34 @@ public class Player implements Runnable{
     public synchronized void discardCard(Card c) {
         CardGame.getNextPlayer(this).getDeck().addCard(c);
         logger.writeToFile(this.getPlayerNumber(),("Discarded " + c.getValue()));
+        logger.writeToFile(this.getPlayerNumber(),("Mode " + this.getHand().mode()));
         this.hand.removeCard(c);
     }
 
-    // TODO
     /**
      * Checks if player has a winning hand (4 of the same card)
      * @return True if player has a winning hand.
      */
     public boolean hasWon() {
         return (hand.isWinningHand() && hand.getCards().size() == 4);
-//        return hand.isWinningHand();
     }
 
     /**
-     * Gets the discarding card by checking mode.
+     * Gets the discarding card by checking mode and making sure its not preferredValue card.
      * @return The card the player should be discarding.
      */
-    public Card getDiscardingCard() {
-        int prefValue = hand.modeWithIndex()[0];
+    public synchronized Card getDiscardingCard() {
+        int prefValue = hand.mode();
         Card c;
         Random r = new Random();
         if(prefValue == -1){
             c = this.getHand().cards.get(r.nextInt(this.getHand().cards.size()));
         } else {
-            int index = 0;
-            while(true){
-                index = r.nextInt(this.getHand().cards.size());
-                if(index != hand.modeWithIndex()[1]) {
-                    break;
-                }
-            }
-            c = this.getHand().cards.get(index);
+            // making a list of index's of the preferred values.
+            int[] preferredValuesIndex = Utilities.intArrToIntList(this.getHand().listOfModeIndex());
+            // gets an index that isn't in the list of preferred values at random.
+            int excludedInt = Utilities.nextIntInRangeButExclude(0,this.getHand().cards.size(),preferredValuesIndex);
+            c = this.getHand().cards.get(excludedInt);
         }
         return c;
     }

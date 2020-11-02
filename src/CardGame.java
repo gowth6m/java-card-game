@@ -1,8 +1,8 @@
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CardGame {
@@ -24,7 +24,7 @@ public class CardGame {
      * @throws URISyntaxException if invalid characters when trying to parse the String
      */
     public void askForInputPack() throws URISyntaxException {
-        File root = new File(Thread.currentThread().getContextClassLoader().getResource("").toURI());
+        File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
         Scanner scanner = new Scanner(System.in);
         String fileInput;
 
@@ -52,6 +52,7 @@ public class CardGame {
                 // checks if the file exists and is correct format
                 if (file.exists() && fr.checkFileFormat()) {
                     inputPackNumbers = fr.getListOfNumbers();
+                    System.out.println("Is game winnable? " + fr.isGameWinnable());
                     break;
                 } else {
                     System.out.println("Files doesn't exist or incorrect file format!");
@@ -65,21 +66,16 @@ public class CardGame {
     /**
      * Hands out the initial hand and decks for each player.
      */
-    public void initialSetUp() throws IOException {
-        //
+    public void initialSetUp() {
         for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[0]) {
             this.listOfPlayerHands.add(new CardHand(list));
         }
-
         for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[1]) {
             this.listOfCardDecks.add(new CardDeck(list));
         }
-
         for(int i = 0; i < numberOfPlayers; i++) {
-            this.listOfPlayers.add(new Player(this.listOfPlayerHands.get(i), this.listOfCardDecks.get(i)));
-//            System.out.println(this.listOfPlayers.get(i));
+            listOfPlayers.add(new Player(this.listOfPlayerHands.get(i), this.listOfCardDecks.get(i)));
         }
-
     }
 
     /**
@@ -111,29 +107,50 @@ public class CardGame {
     }
 
     /**
-     *
+     * Main method
      * @param args
      * @throws URISyntaxException
      */
-    public static void main(String[] args) throws URISyntaxException, InterruptedException, IOException {
+    public static void main(String[] args) throws URISyntaxException, InterruptedException {
         CardGame game = new CardGame();
+        // ------------------------------------------
+        // TODO (For Testing Only)
+//        numberOfPlayers = 2;
+//        FileReader fr = new FileReader("p2.txt");
+//        game.inputPackNumbers = fr.getListOfNumbers();
+        // ------------------------------------------
         game.askForInputPack();
         game.initialSetUp();
 
-        // TESTING STUFF
-        for(Player p:game.listOfPlayers){
+        for(Player p:listOfPlayers){
             (new Thread(p)).start();
             (new Thread(p)).join();
         }
 
-        // testing more
+        // TESTING STUFF ----------------------------
 //        listOfPlayers.get(0).drawCard();
+//        for(Card c: listOfPlayers.get(0).getHand().getCards()) {
+//            System.out.print(c.getValue()+"  ");
+//        }
 //        System.out.println(listOfPlayers.get(0).getHand().mode());
 //        System.out.println(listOfPlayers.get(0).getHand().mode());
 //        System.out.println(listOfPlayers.get(0).getHand().modeWithIndex()[0]);
 //        System.out.println(listOfPlayers.get(0).getHand().modeWithIndex()[1]);
-//
+//        System.out.println("-");
+//        System.out.println("Mode: "+listOfPlayers.get(0).getHand().listOfModeIndex());
 //        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getDiscardingCard());
+//        for(Card c: listOfPlayers.get(0).getHand().getCards()) {
+//            System.out.print(c.getValue()+"  ");
+//        }
+//        System.out.println("-");
+//        System.out.println("Mode: "+listOfPlayers.get(0).getHand().listOfModeIndex());
+//        System.out.println(listOfPlayers.get(0).getHand().getCards().size());
+//
+//        for(int i=0; i < 10;i++) {
+//            int n = Utilities.nextIntInRangeButExclude(0, listOfPlayers.get(0).getHand().getCards().size(), 2);
+//            System.out.print(n + "  ");
+//        }
+
 //        listOfPlayers.get(1).drawCard();
 //        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getHand().randomCard(1));
 
@@ -144,4 +161,9 @@ public class CardGame {
     }
 }
 
-// need to fix discard player
+// TODO THINGS TO FIX
+/*
+    - more than 1 player can win at the same time (need to check on that)
+    - cards disappear from the player deck after lots of rounds.
+    - what to do if no possibility of winning?
+ */
