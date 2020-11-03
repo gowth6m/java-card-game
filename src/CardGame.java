@@ -11,6 +11,7 @@ public class CardGame {
     public static final List<Player> listOfPlayers = new ArrayList<>();
     private final List<CardDeck> listOfCardDecks = new ArrayList<>();
     private final List<CardHand> listOfPlayerHands = new ArrayList<>();
+    private static Thread[] threads;
 
     public static volatile boolean gameOver = false;
 
@@ -99,6 +100,13 @@ public class CardGame {
         }
     }
 
+    public static void endGame(){
+        gameOver = true;
+        for(Thread t:threads){
+            t.interrupt();
+        }
+    }
+
     /**
      * Main method
      * @param args
@@ -115,9 +123,11 @@ public class CardGame {
         game.askForInputPack();
         game.initialSetUp();
 
-        for(Player p:listOfPlayers){
-            (new Thread(p)).start();
-            (new Thread(p)).join();
+        threads = new Thread[numberOfPlayers];
+
+        for(int i = 0; i<numberOfPlayers; i++){
+            threads[i] = new Thread(listOfPlayers.get(i));
+            threads[i].start();
         }
 
         // TESTING STUFF ----------------------------

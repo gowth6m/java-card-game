@@ -32,7 +32,7 @@ public class CardDeck {
      * Adds a card to a CardDeck.
      * @param c Card object to add to deck/hand.
      */
-    public synchronized void addCard(Card c){
+    public void addCard(Card c){
         this.cards.add(c);
     }
 
@@ -40,7 +40,7 @@ public class CardDeck {
      * Removes a card from a CardDeck.
      * @param c Card object to remove.
      */
-    public synchronized void removeCard(Card c){
+    public void removeCard(Card c){
         this.cards.remove(c);
     }
 
@@ -48,7 +48,7 @@ public class CardDeck {
      * Removes a card from the top of the deck.
      * @return Removed Card object.
      */
-    public synchronized Card pop() {
+    public Card pop() {
         return cards.remove(0);
     }
 

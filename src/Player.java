@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Player implements Runnable{
     private final int playerNumber;
-    private volatile CardHand hand;
+    private CardHand hand;
     private volatile CardDeck deck;
     public final GameLogger logger = new GameLogger();
 
@@ -27,7 +27,7 @@ public class Player implements Runnable{
             // Thread loop
             if(this.hasWon()){
                 System.out.println("Player "+ this.getPlayerNumber() + " has won.");
-                CardGame.gameOver = true;
+                CardGame.endGame();
                 logger.writeToFile("player",this.getPlayerNumber(),"player " + this.getPlayerNumber() + " wins");
             } else {
 //                System.out.println("Draw card of " + "Player "+ this.getPlayerNumber());
@@ -58,7 +58,7 @@ public class Player implements Runnable{
     /**
      * Draws a card from the player's deck.
      */
-    public synchronized void drawCard() {
+    public void drawCard() {
         logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " draws a " + this.deck.getCards().get(0).getValue() + " from deck " + this.getPlayerNumber()));
         this.hand.addCard(this.deck.pop());
     }
@@ -66,7 +66,7 @@ public class Player implements Runnable{
     /**
      * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
-    public synchronized void discardCard(Card c) {
+    public void discardCard(Card c) {
         CardGame.getNextPlayer(this).getDeck().addCard(c);
         logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
         this.hand.removeCard(c);
@@ -84,7 +84,7 @@ public class Player implements Runnable{
      * Gets the discarding card by checking mode and making sure its not preferredValue card.
      * @return The card the player should be discarding.
      */
-    public synchronized Card getDiscardingCard() {
+    public Card getDiscardingCard() {
         int prefValue = hand.mode();
         Card c;
         Random r = new Random();
