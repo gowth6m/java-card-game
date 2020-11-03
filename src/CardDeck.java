@@ -2,16 +2,7 @@ import java.util.ArrayList;
 
 public class CardDeck {
 
-    public static class CardValueNotInDeckException extends Exception {
-
-        public CardValueNotInDeckException(){ }
-
-        public CardValueNotInDeckException(String m){
-            super(m);
-        }
-    }
-
-    protected volatile ArrayList<Card> cards = new ArrayList<>();
+    protected final ArrayList<Card> cards = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -29,11 +20,11 @@ public class CardDeck {
     }
 
     /**
-     * Adds a card to a CardDeck.
+     * Adds a card to the 'bottom' of a CardDeck.
      * @param c Card object to add to deck/hand.
      */
     public void addCard(Card c){
-        this.cards.add(c);
+        cards.add(c);
     }
 
     /**
@@ -41,7 +32,7 @@ public class CardDeck {
      * @param c Card object to remove.
      */
     public void removeCard(Card c){
-        this.cards.remove(c);
+        cards.remove(c);
     }
 
     /**
@@ -53,14 +44,6 @@ public class CardDeck {
     }
 
     /**
-     * Adds a card to the bottom of the deck.
-     * @param c Card to add to bottom of deck.
-     */
-    public void push(Card c){
-        cards.add(c);
-    }
-
-    /**
      * Checks if CardDeck object contains any cards.
      * @return If CardDeck is empty.
      */
@@ -69,23 +52,15 @@ public class CardDeck {
     }
 
     /**
-     * Gives the card values of the deck.
-     * @return ArrayList of card values of the deck
+     * Gives a string of values of cards contained in a CardDeck separated by spaces.
+     * @return String containing values of cards.
      */
-    public ArrayList<Integer> getListOfCardValues() {
-        ArrayList<Integer> listOfValues = new ArrayList<>();
+    public String getStringOfCardValues(){
+        StringBuilder sb = new StringBuilder();
         for (Card c:cards) {
-            listOfValues.add(c.getValue());
+            sb.append(" ");
+            sb.append(c.getValue());
         }
-        return listOfValues;
-    }
-
-    // Getter and Setter
-    /**
-     * Getter method to return the cardDeck.
-     * @return The card deck
-     */
-    public ArrayList<Card> getCards(){
-        return cards;
+        return sb.toString();
     }
 }
