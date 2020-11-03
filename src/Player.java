@@ -1,13 +1,8 @@
-import jdk.jshell.execution.Util;
-
-import java.util.ArrayList;
-import java.util.Random;
-
 public class Player implements Runnable{
     private final int playerNumber;
-    private CardHand hand;
-    private volatile CardDeck deck;
-    private GameLogger logger = new GameLogger();
+    private final CardHand hand;
+    private final CardDeck deck;
+    private final GameLogger logger = new GameLogger();
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
@@ -26,7 +21,6 @@ public class Player implements Runnable{
      */
     public void run(){
         while(CardGame.winningPlayer.get() == 0){
-            // Thread loop
             if(hasWon()){
                 CardGame.winningPlayer.set(playerNumber);
                 System.out.println("player "+ playerNumber + " wins");
@@ -34,22 +28,22 @@ public class Player implements Runnable{
                 synchronized (this){
                     try {
                         wait();
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException ignored) {}
                 }
             } else {
                 drawCard();
-                discardCard(getDiscardingCard());
+                discardCard();
                 synchronized (CardGame.getNextPlayer(this)){
                     CardGame.getNextPlayer(this).notify();
                 }
                 // Logging
-                logger.writeToFile("player", playerNumber,"player " + playerNumber + " current hand is " + Utilities.formatCardValues(hand));
+                logger.writeToFile("player", playerNumber,"player " + playerNumber + " current hand is " + hand.getStringOfCardValues());
                 // TODO REMOVE THIS BEFORE SUBMIT
                 logger.writeToFile("player", playerNumber, "--------------------------------");
             }
         }
         // logs the final deck in a separate deck text file.
-        logger.writeToFile("deck", playerNumber,"deck" + playerNumber + " contents: " + Utilities.formatCardValues(deck));
+        logger.writeToFile("deck", playerNumber,"deck" + playerNumber + " contents: " + deck.getStringOfCardValues());
 
         if(CardGame.winningPlayer.get() == playerNumber){
             logger.writeToFile("player", playerNumber,"player " + playerNumber + " wins");
@@ -58,7 +52,7 @@ public class Player implements Runnable{
         }
 
         logger.writeToFile("player", playerNumber, "player " + playerNumber + " exits");
-        logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand: " + Utilities.formatCardValues(hand));
+        logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand:" + hand.getStringOfCardValues());
     }
 
     /**
@@ -73,9 +67,10 @@ public class Player implements Runnable{
     /**
      * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
-    public void discardCard(Card c) {
+    public void discardCard() {
+        Card c = hand.discardableCard();
         CardGame.getNextPlayer(this).getDeck().addCard(c);
-        logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
+        logger.writeToFile("player",playerNumber,("player " + playerNumber + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
         hand.removeCard(c);
     }
 
@@ -84,30 +79,9 @@ public class Player implements Runnable{
      * @return True if player has a winning hand.
      */
     public boolean hasWon() {
-        return (hand.isWinningHand() && hand.getCards().size() == 4);
+        return (hand.isWinningHand());
     }
 
-    /**
-     * Gets the discarding card by checking mode and making sure its not preferredValue card.
-     * @return The card the player should be discarding.
-     */
-    public Card getDiscardingCard() {
-        int prefValue = hand.mode();
-        Card c;
-        Random r = new Random();
-        if(prefValue == -1){
-            c = this.getHand().cards.get(r.nextInt(this.getHand().cards.size()));
-        } else {
-            // making a list of index's of the preferred values.
-            int[] preferredValuesIndex = Utilities.intArrToIntList(this.getHand().listOfModeIndex());
-            // gets an index that isn't in the list of preferred values at random.
-            int excludedInt = Utilities.nextIntInRangeButExclude(0,this.getHand().cards.size(),preferredValuesIndex);
-            c = this.getHand().cards.get(excludedInt);
-        }
-        return c;
-    }
-
-    // Getter & Setter
     /**
      * Getter method for player hand.
      * @return CardDeck object containing player hand.
@@ -116,6 +90,10 @@ public class Player implements Runnable{
         return hand;
     }
 
+    /**
+     * Getter method for logger.
+     * @return Instance of GameLogger object.
+     */
     public GameLogger getLogger(){
         return logger;
     }
@@ -132,5 +110,5 @@ public class Player implements Runnable{
      * Getter method for player number.
      * @return The current player number.
      */
-    public int getPlayerNumber() {return playerNumber; }
+    public int getPlayerNumber() { return playerNumber; }
 }

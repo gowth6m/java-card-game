@@ -81,7 +81,7 @@ public class CardGame {
         }
         for(Player p:listOfPlayers) {
             p.getLogger().writeToFile("player",p.getPlayerNumber(), "player " +
-                    p.getPlayerNumber()+" initial hand " + Utilities.formatCardValues(p.getHand()));
+                    p.getPlayerNumber()+" initial hand " + p.getHand().getStringOfCardValues());
         }
     }
 

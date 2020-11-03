@@ -36,18 +36,16 @@ public class CardHand extends CardDeck {
     }
 
     /**
-     * Finds the mode value in player hand and returns a list of index's that has mode value.
-     * @return List of index that has the value of mode.
+     * Returns a Card that can be discarded from the CardHand.
+     * @return Card object to be discarded
      */
-    public ArrayList<Integer> listOfModeIndex() {
-        int maxValue = mode();
-        ArrayList<Integer> result = new ArrayList<>();
-        for(int i=0; i < cards.size(); i++) {
-            if (cards.get(i).getValue() == maxValue) {
-                result.add(i);
-            }
+    public Card discardableCard(){
+        int mode = mode();
+        if(mode == -1){
+            return randomCard();
+        } else {
+            return randomCard(mode);
         }
-        return result;
     }
 
     /**
@@ -55,14 +53,16 @@ public class CardHand extends CardDeck {
      * @return Boolean.
      */
     public boolean isWinningHand() {
-        for (Card c : cards) {
+        if(cards.size() != 4) {
+            return false;
+        }
+        for (Card c:cards) {
             if ((c.getValue() != cards.get(0).getValue()))
                 return false;
         }
         return true;
     }
 
-    // TODO (not using these anymore)
     /**
      * Returns random Card object from CardHand object.
      * @return Card.
@@ -78,18 +78,13 @@ public class CardHand extends CardDeck {
      * @return Card.
      */
     public Card randomCard(int v){
-        ArrayList<Card> filteredCards = cards;
-        filteredCards.removeIf(c -> c.getValue() == v);
+        ArrayList<Card> filteredCards = new ArrayList<>();
+        for(Card c:cards){
+            if (c.getValue() != v){
+                filteredCards.add(c);
+            }
+        }
         Random r = new Random();
         return filteredCards.get(r.nextInt(filteredCards.size()));
-
-//        ArrayList<Card> filteredCards = new ArrayList<>();
-//        for(Card c:cards) {
-//            if(c.getValue() == v) {
-//                filteredCards.add(c);
-//            }
-//        }
-//        Random r = new Random();
-//        return filteredCards.get(r.nextInt(filteredCards.size()));
     }
 }
