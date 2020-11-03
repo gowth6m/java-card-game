@@ -1,9 +1,12 @@
+import jdk.jshell.execution.Util;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CardGame {
     public static int numberOfPlayers;
@@ -12,8 +15,7 @@ public class CardGame {
     private final List<CardDeck> listOfCardDecks = new ArrayList<>();
     private final List<CardHand> listOfPlayerHands = new ArrayList<>();
     private static Thread[] threads;
-
-    public static volatile boolean gameOver = false;
+    public static AtomicInteger winningPlayer = new AtomicInteger(0);
 
     public CardGame() { }
 
@@ -77,12 +79,9 @@ public class CardGame {
         for(int i = 0; i < numberOfPlayers; i++) {
             listOfPlayers.add(new Player(this.listOfPlayerHands.get(i), this.listOfCardDecks.get(i)));
         }
-        for(int i = 0; i < numberOfPlayers; i++) {
-            listOfPlayers.get(i).logger.writeToFile("player",listOfPlayers.get(i).getPlayerNumber(), "player " +
-                    listOfPlayers.get(i).getPlayerNumber()+" initial hand " + listOfPlayers.get(i).getDeck().getListOfCardValues().toString()
-                            .replace(",", " ")
-                            .replace("[", "")
-                            .replace("]", ""));
+        for(Player p:listOfPlayers) {
+            p.getLogger().writeToFile("player",p.getPlayerNumber(), "player " +
+                    p.getPlayerNumber()+" initial hand " + Utilities.formatCardValues(p.getHand()));
         }
     }
 
@@ -100,11 +99,8 @@ public class CardGame {
         }
     }
 
-    public static void endGame(){
-        gameOver = true;
-        for(Thread t:threads){
-            t.interrupt();
-        }
+    public static void endGame(int playerNumber){
+        winningPlayer.set(playerNumber);
     }
 
     /**
@@ -123,11 +119,8 @@ public class CardGame {
         game.askForInputPack();
         game.initialSetUp();
 
-        threads = new Thread[numberOfPlayers];
-
-        for(int i = 0; i<numberOfPlayers; i++){
-            threads[i] = new Thread(listOfPlayers.get(i));
-            threads[i].start();
+        for(Player p:listOfPlayers){
+            (new Thread(p)).start();
         }
 
         // TESTING STUFF ----------------------------

@@ -69,36 +69,12 @@ public class CardDeck {
     }
 
     /**
-     * Adds a card of the given value to a CardDeck.
-     * @param v Face value of the card to add.
-     */
-    public void addCardByValue(int v){
-        cards.add(new Card(v));
-    }
-
-    /**
-     * Removes a card of the given value from a CardDeck and returns the card object.
-     * Throws CardValueNotInDeckException if card cannot be found.
-     * @param v Face value of card to remove.
-     * @return Removed Card object .
-     */
-    public Card removeCardByValue(int v) throws CardValueNotInDeckException {
-        for(Card c:cards){
-            if (c.getValue() == v) {
-                cards.remove(c);
-                return c;
-            }
-        }
-        throw new CardValueNotInDeckException();
-    }
-
-    /**
      * Gives the card values of the deck.
      * @return ArrayList of card values of the deck
      */
     public ArrayList<Integer> getListOfCardValues() {
         ArrayList<Integer> listOfValues = new ArrayList<>();
-        for (Card c:this.cards) {
+        for (Card c:cards) {
             listOfValues.add(c.getValue());
         }
         return listOfValues;

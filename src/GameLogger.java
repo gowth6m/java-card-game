@@ -1,7 +1,7 @@
 import java.io.*;
 
 public class GameLogger {
-    File file;
+    private File file;
 
     public GameLogger() {}
 
@@ -11,9 +11,9 @@ public class GameLogger {
      * @param playerNumber part of the text file name
      * @param fileInput this is the input that gets recorded on the text file
      */
-    public void writeToFile(String name ,int playerNumber, String fileInput) {
+    public synchronized void writeToFile(String name, int playerNumber, String fileInput) {
         try {
-            file = new File(name + playerNumber +"_output");
+            file = new File(name + playerNumber +"_output.txt");
             FileWriter fr = new FileWriter(file, true);
             BufferedWriter br = new BufferedWriter(fr);
             PrintWriter pr = new PrintWriter(br);

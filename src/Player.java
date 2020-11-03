@@ -1,3 +1,5 @@
+import jdk.jshell.execution.Util;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -5,7 +7,7 @@ public class Player implements Runnable{
     private final int playerNumber;
     private CardHand hand;
     private volatile CardDeck deck;
-    public final GameLogger logger = new GameLogger();
+    private GameLogger logger = new GameLogger();
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
@@ -23,44 +25,49 @@ public class Player implements Runnable{
      * (check if deck is empty and if game is over) -> Draws card -> Discards card
      */
     public void run(){
-        while(!this.deck.isEmpty() && !CardGame.gameOver){
+        while(CardGame.winningPlayer.get() == 0){
             // Thread loop
-            if(this.hasWon()){
-                System.out.println("Player "+ this.getPlayerNumber() + " has won.");
-                CardGame.endGame();
-                logger.writeToFile("player",this.getPlayerNumber(),"player " + this.getPlayerNumber() + " wins");
+            if(hasWon()){
+                CardGame.winningPlayer.set(playerNumber);
+                System.out.println("player "+ playerNumber + " wins");
+            } else if (deck.isEmpty()){
+                synchronized (this){
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {}
+                }
             } else {
-//                System.out.println("Draw card of " + "Player "+ this.getPlayerNumber());
-                this.drawCard();
-//                System.out.println("Discard card of " + "Player "+ this.getPlayerNumber());
-                discardCard(this.getDiscardingCard());
-
+                drawCard();
+                discardCard(getDiscardingCard());
+                synchronized (CardGame.getNextPlayer(this)){
+                    CardGame.getNextPlayer(this).notify();
+                }
                 // Logging
-                logger.writeToFile("player",this.getPlayerNumber(),"player " + this.getPlayerNumber() + " current hand is " + hand.getListOfCardValues().toString()
-                        .replace(",", " ")
-                        .replace("[", "")
-                        .replace("]", ""));
-                logger.writeToFile("player",this.getPlayerNumber(),"deck: " + deck.getListOfCardValues().toString()
-                        .replace(",", " ")
-                        .replace("[", "")
-                        .replace("]", ""));
+                logger.writeToFile("player", playerNumber,"player " + playerNumber + " current hand is " + Utilities.formatCardValues(hand));
                 // TODO REMOVE THIS BEFORE SUBMIT
-                logger.writeToFile("player",this.getPlayerNumber(), "--------------------------------");
+                logger.writeToFile("player", playerNumber, "--------------------------------");
             }
         }
         // logs the final deck in a separate deck text file.
-        logger.writeToFile("deck",this.getPlayerNumber(),"deck" + this.getPlayerNumber() + " contains " + deck.getListOfCardValues().toString()
-                .replace(",", " ")
-                .replace("[", "")
-                .replace("]", ""));
+        logger.writeToFile("deck", playerNumber,"deck" + playerNumber + " contents: " + Utilities.formatCardValues(deck));
+
+        if(CardGame.winningPlayer.get() == playerNumber){
+            logger.writeToFile("player", playerNumber,"player " + playerNumber + " wins");
+        } else {
+            logger.writeToFile("player", playerNumber, "player " + CardGame.winningPlayer.get() + " has informed player " + playerNumber + " that player " + CardGame.winningPlayer.get() + " has won");
+        }
+
+        logger.writeToFile("player", playerNumber, "player " + playerNumber + " exits");
+        logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand: " + Utilities.formatCardValues(hand));
     }
 
     /**
      * Draws a card from the player's deck.
      */
     public void drawCard() {
-        logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " draws a " + this.deck.getCards().get(0).getValue() + " from deck " + this.getPlayerNumber()));
-        this.hand.addCard(this.deck.pop());
+        Card c = deck.pop();
+        logger.writeToFile("player", playerNumber, ("player " + playerNumber + " draws a " + c.getValue() + " from deck " + playerNumber));
+        hand.addCard(c);
     }
 
     /**
@@ -69,7 +76,7 @@ public class Player implements Runnable{
     public void discardCard(Card c) {
         CardGame.getNextPlayer(this).getDeck().addCard(c);
         logger.writeToFile("player",this.getPlayerNumber(),("player " + this.getPlayerNumber() + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
-        this.hand.removeCard(c);
+        hand.removeCard(c);
     }
 
     /**
@@ -107,6 +114,10 @@ public class Player implements Runnable{
      */
     public CardHand getHand(){
         return hand;
+    }
+
+    public GameLogger getLogger(){
+        return logger;
     }
 
     /**

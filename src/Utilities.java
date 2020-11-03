@@ -85,4 +85,11 @@ public final class Utilities {
         }
         return randomInt;
     }
+
+    public static String formatCardValues(CardDeck deck){
+        return deck.getListOfCardValues().toString()
+                .replace(",", " ")
+                .replace("[", "")
+                .replace("]", "");
+    }
 }
