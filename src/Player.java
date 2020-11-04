@@ -61,7 +61,7 @@ public class Player implements Runnable{
     /**
      * Draws a card from the player's deck.
      */
-    public void drawCard() {
+    public synchronized void drawCard() {
         Card c = deck.pop();
         logger.writeToFile("player", playerNumber, ("player " + playerNumber + " draws a " + c.getValue() + " from deck " + playerNumber));
         hand.addCard(c);
@@ -70,7 +70,7 @@ public class Player implements Runnable{
     /**
      * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
-    public void discardCard() {
+    public synchronized void discardCard() {
         Card c = hand.discardableCard();
         CardGame.getNextPlayer(this).getDeck().addCard(c);
         logger.writeToFile("player",playerNumber,("player " + playerNumber + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
