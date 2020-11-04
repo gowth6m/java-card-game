@@ -86,7 +86,7 @@ public class CardGame {
     /**
      * Main method.
      */
-    public static void main(String[] args) throws URISyntaxException, InterruptedException {
+    public static void main(String[] args) throws URISyntaxException {
         CardGame game = new CardGame();
         GameLogger.initLogs();
         game.askForInputPack();
