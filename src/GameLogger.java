@@ -1,8 +1,26 @@
 import java.io.*;
+import java.util.Objects;
 
 public class GameLogger {
 
-    public GameLogger() {}
+    /**
+     * Constructs a new instance of GameLogger.
+     */
+    public GameLogger() {
+    }
+
+    /**
+     * Deletes old output logs and creates directory if not already created.
+     */
+    public static void initLogs(){
+        File file = new File("logs/");
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        for(File sf: Objects.requireNonNull(file.listFiles())){
+            sf.delete();
+        }
+    }
 
     /**
      * Logs the given string to text file for the corresponding player given by playerNumber
@@ -12,7 +30,7 @@ public class GameLogger {
      */
     public synchronized void writeToFile(String name, int playerNumber, String fileInput) {
         try {
-            File file = new File(name + playerNumber + "_output.txt");
+            File file = new File("logs/" + name + playerNumber + "_output.txt");
             FileWriter fr = new FileWriter(file, true);
             fileInput += "\n";
             fr.append(fileInput);
