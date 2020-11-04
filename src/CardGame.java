@@ -1,8 +1,6 @@
-import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,7 +20,6 @@ public class CardGame {
      * @throws URISyntaxException if invalid characters when trying to parse the String
      */
     public void askForInputPack() throws URISyntaxException {
-        File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
         Scanner scanner = new Scanner(System.in);
         String fileInput;
 
@@ -43,12 +40,11 @@ public class CardGame {
         while (true) {
             System.out.print("Please enter location of pack to load: ");
             fileInput = scanner.next();
-            File file = new File(root, fileInput);
             // checks if its txt file
             if (fileInput.contains(".txt")) {
                 FileReader fr = new FileReader(fileInput);
                 // checks if the file exists and is correct format
-                if (file.exists() && fr.checkFileFormat()) {
+                if (fr.checkFileFormat()) {
                     inputPackNumbers = fr.getListOfNumbers();
                     System.out.println("Is game winnable? " + fr.isGameWinnable());
                     break;
@@ -62,7 +58,7 @@ public class CardGame {
     }
 
     /**
-     * Hands out the initial hand and decks for each player.
+     * Constructs a new instance of Player for each player and deals CardHands and CardDecks.
      */
     public void initialSetUp() {
        int[][][] dealtCards = Dealer.deal(inputPackNumbers, numberOfPlayers);
@@ -87,14 +83,8 @@ public class CardGame {
         }
     }
 
-    public static void endGame(int playerNumber){
-        winningPlayer.set(playerNumber);
-    }
-
     /**
-     * Main method
-     * @param args
-     * @throws URISyntaxException
+     * Main method.
      */
     public static void main(String[] args) throws URISyntaxException, InterruptedException {
         CardGame game = new CardGame();
@@ -107,10 +97,3 @@ public class CardGame {
         }
     }
 }
-
-// TODO THINGS TO FIX
-/*
-    - more than 1 player can win at the same time (need to check on that)
-    - cards disappear from the player deck after lots of rounds.
-    - what to do if no possibility of winning?
- */
