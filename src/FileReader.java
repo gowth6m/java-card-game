@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class FileReader {
 
     final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
-    private final File file;
     private final List<String> listOfNumbers = new ArrayList<>();
 
     /**
@@ -18,7 +17,7 @@ public class FileReader {
      * @throws URISyntaxException
      */
     public FileReader(String fileName) throws URISyntaxException {
-        file = new File(root, fileName);
+        File file = new File(root, fileName);
         try {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNext()) {
@@ -32,13 +31,12 @@ public class FileReader {
      * Gets the list of numbers from input pack.
      * @return the list of numbers from the input pack as a list of Integers.
      */
-    public List<Integer> getListOfNumbers() {
-        List<Integer> numbers = new ArrayList<>();
-        for (String s:listOfNumbers) {
+    public int[] getListOfNumbers() {
+        int[] numbers = new int[CardGame.numberOfPlayers * 8];
+        for(int i = 0; i < listOfNumbers.size(); i++) {
             try {
-                numbers.add(Integer.parseInt(s));
-            } catch(Exception e) {
-                System.out.println("ERROR IN CODE (FileReader:getListOfNumbers)");
+                numbers[i] = Integer.parseInt(listOfNumbers.get(i));
+            } catch (Exception ignored) {
             }
         }
         return numbers;
@@ -50,7 +48,7 @@ public class FileReader {
      */
     public boolean checkFileFormat() {
         for(String number:listOfNumbers) {
-            return (Utilities.isInteger(number)) && (Integer.parseInt(number) >= 0) && (this.getListOfNumbers().size() == 8 * CardGame.numberOfPlayers);
+            return (Utilities.isInteger(number)) && (Integer.parseInt(number) >= 0) && (listOfNumbers.size() == 8 * CardGame.numberOfPlayers);
         }
         return true;
     }

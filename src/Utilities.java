@@ -20,20 +20,4 @@ public final class Utilities {
         }
         return true;
     }
-
-    /**
-     * Takes in a list of Integer and returns an array of int
-     *
-     * @param integerList - takes in a list of integer
-     * @return an array of int
-     */
-    public static int[] intArrToIntList(List<Integer> integerList) {
-        int size = integerList.size();
-        int[] intArray = new int[size];
-        Integer[] temp = integerList.toArray(new Integer[size]);
-        for (int n = 0; n < size; ++n) {
-            intArray[n] = temp[n];
-        }
-        return intArray;
-    }
 }

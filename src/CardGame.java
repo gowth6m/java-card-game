@@ -1,5 +1,3 @@
-import jdk.jshell.execution.Util;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -10,11 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CardGame {
     public static int numberOfPlayers;
-    private List<Integer> inputPackNumbers = new ArrayList<>();
+    private int[] inputPackNumbers;
     public static final List<Player> listOfPlayers = new ArrayList<>();
-    private final List<CardDeck> listOfCardDecks = new ArrayList<>();
-    private final List<CardHand> listOfPlayerHands = new ArrayList<>();
-    private static Thread[] threads;
     public static AtomicInteger winningPlayer = new AtomicInteger(0);
 
     public CardGame() { }
@@ -70,19 +65,12 @@ public class CardGame {
      * Hands out the initial hand and decks for each player.
      */
     public void initialSetUp() {
-        for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[0]) {
-            this.listOfPlayerHands.add(new CardHand(list));
-        }
-        for(int[] list: Dealer.deal(Utilities.intArrToIntList(this.inputPackNumbers), numberOfPlayers)[1]) {
-            this.listOfCardDecks.add(new CardDeck(list));
-        }
-        for(int i = 0; i < numberOfPlayers; i++) {
-            listOfPlayers.add(new Player(this.listOfPlayerHands.get(i), this.listOfCardDecks.get(i)));
-        }
-        for(Player p:listOfPlayers) {
-            p.getLogger().writeToFile("player",p.getPlayerNumber(), "player " +
-                    p.getPlayerNumber()+" initial hand " + p.getHand().getStringOfCardValues());
-        }
+       int[][][] dealtCards = Dealer.deal(inputPackNumbers, numberOfPlayers);
+
+       for(int i = 0; i < numberOfPlayers; i++){
+           Player p = new Player(new CardHand(dealtCards[0][i]), new CardDeck(dealtCards[1][i]), i + 1);
+           listOfPlayers.add(p);
+       }
     }
 
     /**
@@ -110,40 +98,13 @@ public class CardGame {
      */
     public static void main(String[] args) throws URISyntaxException, InterruptedException {
         CardGame game = new CardGame();
-        // ------------------------------------------
-        // TODO (For Testing Only)
-//        numberOfPlayers = 2;
-//        FileReader fr = new FileReader("t2.txt");
-//        game.inputPackNumbers = fr.getListOfNumbers();
-        // ------------------------------------------
+        GameLogger.initLogs();
         game.askForInputPack();
         game.initialSetUp();
 
         for(Player p:listOfPlayers){
             (new Thread(p)).start();
         }
-
-        // TESTING STUFF ----------------------------
-//        listOfPlayers.get(0).drawCard();
-//        for(Card c: listOfPlayers.get(0).getHand().getCards()) {
-//            System.out.print(c.getValue()+"  ");
-//        }
-//        System.out.println("Mode: "+listOfPlayers.get(0).getHand().listOfModeIndex());
-//        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getDiscardingCard());
-//        for(Card c: listOfPlayers.get(0).getHand().getCards()) {
-//            System.out.print(c.getValue()+"  ");
-//        }
-//        System.out.println("-");
-//        System.out.println("Mode: "+listOfPlayers.get(0).getHand().listOfModeIndex());
-//        System.out.println(listOfPlayers.get(0).getHand().getCards().size());
-//
-//        for(int i=0; i < 10;i++) {
-//            int n = Utilities.nextIntInRangeButExclude(0, listOfPlayers.get(0).getHand().getCards().size(), 2);
-//            System.out.print(n + "  ");
-//        }
-
-//        listOfPlayers.get(1).drawCard();
-//        listOfPlayers.get(0).discardCard(listOfPlayers.get(0).getHand().randomCard(1));
     }
 }
 
