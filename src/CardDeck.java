@@ -55,7 +55,7 @@ public class CardDeck {
      * Gives a string of values of cards contained in a CardDeck separated by spaces.
      * @return String containing values of cards.
      */
-    public String getStringOfCardValues(){
+    public synchronized String getStringOfCardValues(){
         StringBuilder sb = new StringBuilder();
         for (Card c:cards) {
             sb.append(" ");

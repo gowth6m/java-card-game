@@ -2,17 +2,20 @@ public class Player implements Runnable{
     private final int playerNumber;
     private final CardHand hand;
     private final CardDeck deck;
-    private final GameLogger logger = new GameLogger();
+    private final GameLogger logger;
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
      * @param h CardDeck representing initial player hand.
      * @param d CardDeck representing initial player deck.
+     * @param num Integer representing the player number.
      */
-    public Player(CardHand h, CardDeck d) {
+    public Player(CardHand h, CardDeck d, int num) {
         this.hand = h;
         this.deck = d;
-        playerNumber = CardGame.listOfPlayers.size() + 1;
+        playerNumber = num;
+        logger = new GameLogger();
+        logger.writeToFile("player", playerNumber, "player " + playerNumber + " initial hand " + hand.getStringOfCardValues());
     }
 
     /**

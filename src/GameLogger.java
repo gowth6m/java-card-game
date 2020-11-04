@@ -1,5 +1,6 @@
-import java.io.*;
-import java.util.Objects;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class GameLogger {
 
@@ -17,7 +18,7 @@ public class GameLogger {
         if(!file.exists()){
             file.mkdirs();
         }
-        for(File sf: Objects.requireNonNull(file.listFiles())){
+        for(File sf: file.listFiles()){
             sf.delete();
         }
     }
