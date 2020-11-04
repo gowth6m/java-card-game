@@ -39,7 +39,7 @@ public class CardHand extends CardDeck {
      * Returns a Card that can be discarded from the CardHand.
      * @return Card object to be discarded
      */
-    public Card discardableCard(){
+    public Card getDiscardingCard(){
         int mode = mode();
         if(mode == -1){
             return randomCard();

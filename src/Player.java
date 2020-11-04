@@ -71,7 +71,7 @@ public class Player implements Runnable{
      * Discards the given card from the player's hand and puts it at the bottom of the next player's deck.
      */
     public synchronized void discardCard() {
-        Card c = hand.discardableCard();
+        Card c = hand.getDiscardingCard();
         CardGame.getNextPlayer(this).getDeck().addCard(c);
         logger.writeToFile("player",playerNumber,("player " + playerNumber + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
         hand.removeCard(c);
