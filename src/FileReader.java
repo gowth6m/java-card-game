@@ -14,7 +14,6 @@ public class FileReader {
     /**
      * Constructor for FileReader
      * @param fileName name of the input pack by the player
-     * @throws URISyntaxException
      */
     public FileReader(String fileName) throws URISyntaxException {
         File file = new File(root, fileName);
@@ -24,7 +23,9 @@ public class FileReader {
                 listOfNumbers.add(myReader.next());
             }
             myReader.close();
-        } catch(IOException ignored) {}
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -34,10 +35,7 @@ public class FileReader {
     public int[] getListOfNumbers() {
         int[] numbers = new int[CardGame.numberOfPlayers * 8];
         for(int i = 0; i < listOfNumbers.size(); i++) {
-            try {
-                numbers[i] = Integer.parseInt(listOfNumbers.get(i));
-            } catch (Exception ignored) {
-            }
+            numbers[i] = Integer.parseInt(listOfNumbers.get(i));
         }
         return numbers;
     }
@@ -48,7 +46,13 @@ public class FileReader {
      */
     public boolean checkFileFormat() {
         for(String number:listOfNumbers) {
-            return (Utilities.isInteger(number)) && (Integer.parseInt(number) >= 0) && (listOfNumbers.size() == 8 * CardGame.numberOfPlayers);
+            try{
+                if(Integer.parseInt(number) < 0 || listOfNumbers.size() != 8 * CardGame.numberOfPlayers){
+                    return false;
+                }
+            } catch (NumberFormatException ignored) {
+                return false;
+            }
         }
         return true;
     }
@@ -58,7 +62,6 @@ public class FileReader {
      * @return true if game is winnable, false if not.
      */
     public boolean isGameWinnable() {
-        boolean winnable = false;
         for(int a:getListOfNumbers()) {
             int counter = 0;
             for(int b:getListOfNumbers()) {
@@ -67,9 +70,9 @@ public class FileReader {
                 }
             }
             if (counter >= 4) {
-                winnable = true;
+                return true;
             }
         }
-        return winnable;
+        return false;
     }
 }
