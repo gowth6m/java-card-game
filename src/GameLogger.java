@@ -14,11 +14,8 @@ public class GameLogger {
         try {
             File file = new File(name + playerNumber + "_output.txt");
             FileWriter fr = new FileWriter(file, true);
-            BufferedWriter br = new BufferedWriter(fr);
-            PrintWriter pr = new PrintWriter(br);
-            pr.println(fileInput);
-            pr.close();
-            br.close();
+            fileInput += "\n";
+            fr.append(fileInput);
             fr.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
