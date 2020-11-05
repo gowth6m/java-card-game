@@ -1,10 +1,12 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 public class CardDeck {
 
-    protected final ArrayList<Card> cards = new ArrayList<>();
+    protected final List<Card> cards = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Default constructor.
@@ -71,5 +73,5 @@ public class CardDeck {
      *
      * @return cards in CardDeck.
      */
-    public ArrayList<Card> getCards(){ return cards; }
+    public List<Card> getCards(){ return cards; }
 }
