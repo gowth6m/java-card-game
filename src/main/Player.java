@@ -26,7 +26,7 @@ public class Player implements Runnable{
      */
     public void run(){
         while(CardGame.winningPlayer.get() == 0){
-            if(hasWon()){
+            if(hand.isWinningHand()){
                 CardGame.winningPlayer.set(playerNumber);
                 System.out.println("player "+ playerNumber + " wins");
             } else if (deck.isEmpty()){
@@ -80,27 +80,11 @@ public class Player implements Runnable{
     }
 
     /**
-     * Checks if player has a winning hand (4 of the same card)
-     * @return True if player has a winning hand.
-     */
-    public boolean hasWon() {
-        return (hand.isWinningHand());
-    }
-
-    /**
      * Getter method for player hand.
      * @return CardDeck object containing player hand.
      */
     public CardHand getHand(){
         return hand;
-    }
-
-    /**
-     * Getter method for logger.
-     * @return Instance of GameLogger object.
-     */
-    public GameLogger getLogger(){
-        return logger;
     }
 
     /**
