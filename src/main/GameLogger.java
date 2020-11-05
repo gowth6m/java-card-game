@@ -7,7 +7,7 @@ import java.io.IOException;
 public class GameLogger {
 
     /**
-     * Constructs a new instance of main.GameLogger.
+     * Constructs a new instance of GameLogger.
      */
     public GameLogger() {
     }

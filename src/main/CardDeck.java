@@ -12,8 +12,8 @@ public class CardDeck {
     public CardDeck() {}
 
     /**
-     * Constructs an instance of main.CardDeck with the given card values.
-     * @param cardValues Array of integer card values to add to the main.CardDeck.
+     * Constructs an instance of CardDeck with the given card values.
+     * @param cardValues Array of integer card values to add to the CardDeck.
      */
     public CardDeck(int[] cardValues) {
         for(int v:cardValues){
@@ -22,16 +22,16 @@ public class CardDeck {
     }
 
     /**
-     * Adds a card to the 'bottom' of a main.CardDeck.
-     * @param c main.Card object to add to deck/hand.
+     * Adds a card to the 'bottom' of a CardDeck.
+     * @param c Card object to add to deck/hand.
      */
     public void addCard(Card c){
         cards.add(c);
     }
 
     /**
-     * Removes a card from a main.CardDeck.
-     * @param c main.Card object to remove.
+     * Removes a card from a CardDeck.
+     * @param c Card object to remove.
      */
     public void removeCard(Card c){
         cards.remove(c);
@@ -39,22 +39,22 @@ public class CardDeck {
 
     /**
      * Removes a card from the top of the deck.
-     * @return Removed main.Card object.
+     * @return Removed Card object.
      */
     public Card pop() {
         return cards.remove(0);
     }
 
     /**
-     * Checks if main.CardDeck object contains any cards.
-     * @return If main.CardDeck is empty.
+     * Checks if CardDeck object contains any cards.
+     * @return If CardDeck is empty.
      */
     public boolean isEmpty() {
         return cards.isEmpty();
     }
 
     /**
-     * Gives a string of values of cards contained in a main.CardDeck separated by spaces.
+     * Gives a string of values of cards contained in a CardDeck separated by spaces.
      * @return String containing values of cards.
      */
     public synchronized String getStringOfCardValues(){
@@ -67,10 +67,9 @@ public class CardDeck {
     }
 
     // Getter and Setter
-
     /**
      *
-     * @return cards in CardDeck
+     * @return cards in CardDeck.
      */
     public ArrayList<Card> getCards(){ return cards; }
 }
