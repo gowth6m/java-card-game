@@ -1,3 +1,5 @@
+package main;
+
 public class Dealer {
 
     public Dealer(){ }
@@ -7,7 +9,7 @@ public class Dealer {
      *
      * @param pack Integer array input of card values from file. Should be 8 * numberOfPlayers.
      * @param numberOfPlayers Number of players to deal to.
-     * @return [[[player1hand, player2hand, ...], [player1deck, player2deck, ...]]
+     * @return [[[player1hand], [player2hand], ...], [[player1deck], [player2deck], ...]]
      */
     public static int[][][] deal(int[] pack, int numberOfPlayers) {
 

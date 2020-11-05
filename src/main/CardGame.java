@@ -1,3 +1,5 @@
+package main;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class CardGame {
     }
 
     /**
-     * Constructs a new instance of Player for each player and deals CardHands and CardDecks.
+     * Constructs a new instance of main.Player for each player and deals CardHands and CardDecks.
      */
     public void initialSetUp() {
        int[][][] dealtCards = Dealer.deal(inputPackNumbers, numberOfPlayers);
@@ -72,7 +74,7 @@ public class CardGame {
     /**
      * Returns the next player in the list, loops back to first player if on last player.
      * @param p Current player
-     * @return Player next in line to current player
+     * @return main.Player next in line to current player
      */
     public static Player getNextPlayer(Player p){
         int i = CardGame.listOfPlayers.indexOf(p) + 1;

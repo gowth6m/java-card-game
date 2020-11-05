@@ -1,11 +1,13 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class CardHand extends CardDeck {
 
     /**
-     * Constructs an instance of CardDeck with the given card values.
-     * @param cardValues Array of integer card values to add to the CardDeck.
+     * Constructs an instance of main.CardDeck with the given card values.
+     * @param cardValues Array of integer card values to add to the main.CardDeck.
      */
     public CardHand(int[] cardValues) {
         for(int v:cardValues){
@@ -14,7 +16,7 @@ public class CardHand extends CardDeck {
     }
 
     /**
-     * Finds the most common card value in the CardDeck.
+     * Finds the most common card value in the main.CardDeck.
      * Returns -1 if all card values are different.
      * @return Most common face value.
      */
@@ -36,8 +38,8 @@ public class CardHand extends CardDeck {
     }
 
     /**
-     * Returns a Card that can be discarded from the CardHand.
-     * @return Card object to be discarded
+     * Returns a main.Card that can be discarded from the main.CardHand.
+     * @return main.Card object to be discarded
      */
     public Card getDiscardingCard(){
         int mode = mode();
@@ -64,8 +66,8 @@ public class CardHand extends CardDeck {
     }
 
     /**
-     * Returns random Card object from CardHand object.
-     * @return Card.
+     * Returns random main.Card object from main.CardHand object.
+     * @return main.Card.
      */
     public Card randomCard(){
         Random r = new Random();
@@ -73,9 +75,9 @@ public class CardHand extends CardDeck {
     }
 
     /**
-     * Returns random Card object from CardHand object where Card value is not given value.
+     * Returns random main.Card object from main.CardHand object where main.Card value is not given value.
      * @param v Value of cards to ignore.
-     * @return Card.
+     * @return main.Card.
      */
     public Card randomCard(int v){
         ArrayList<Card> filteredCards = new ArrayList<>();

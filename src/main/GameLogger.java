@@ -1,3 +1,5 @@
+package main;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -5,7 +7,7 @@ import java.io.IOException;
 public class GameLogger {
 
     /**
-     * Constructs a new instance of GameLogger.
+     * Constructs a new instance of main.GameLogger.
      */
     public GameLogger() {
     }

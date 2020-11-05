@@ -1,3 +1,5 @@
+package main;
+
 public class Player implements Runnable{
     private final int playerNumber;
     private final CardHand hand;
@@ -6,8 +8,8 @@ public class Player implements Runnable{
 
     /**
      * Constructs an instance of player with their initial hand and deck values.
-     * @param h CardDeck representing initial player hand.
-     * @param d CardDeck representing initial player deck.
+     * @param h main.CardDeck representing initial player hand.
+     * @param d main.CardDeck representing initial player deck.
      * @param num Integer representing the player number.
      */
     public Player(CardHand h, CardDeck d, int num) {
@@ -87,7 +89,7 @@ public class Player implements Runnable{
 
     /**
      * Getter method for player hand.
-     * @return CardDeck object containing player hand.
+     * @return main.CardDeck object containing player hand.
      */
     public CardHand getHand(){
         return hand;
@@ -95,7 +97,7 @@ public class Player implements Runnable{
 
     /**
      * Getter method for logger.
-     * @return Instance of GameLogger object.
+     * @return Instance of main.GameLogger object.
      */
     public GameLogger getLogger(){
         return logger;
@@ -103,7 +105,7 @@ public class Player implements Runnable{
 
     /**
      * Getter method for player deck.
-     * @return CardDeck object containing player deck.
+     * @return main.CardDeck object containing player deck.
      */
     public CardDeck getDeck(){
         return deck;

@@ -1,3 +1,5 @@
+package main;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -12,7 +14,7 @@ public class FileReader {
     private final List<String> listOfNumbers = new ArrayList<>();
 
     /**
-     * Constructor for FileReader
+     * Constructor for main.FileReader
      * @param fileName name of the input pack by the player
      */
     public FileReader(String fileName) throws URISyntaxException {
