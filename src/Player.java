@@ -55,7 +55,7 @@ public class Player implements Runnable{
         }
 
         logger.writeToFile("player", playerNumber, "player " + playerNumber + " exits");
-        logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand:" + hand.getStringOfCardValues());
+        logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand: " + hand.getStringOfCardValues());
     }
 
     /**

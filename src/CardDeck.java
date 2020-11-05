@@ -61,6 +61,6 @@ public class CardDeck {
             sb.append(" ");
             sb.append(c.getValue());
         }
-        return sb.toString();
+        return sb.toString().stripLeading();
     }
 }
