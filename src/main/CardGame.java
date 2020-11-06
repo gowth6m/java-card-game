@@ -90,12 +90,30 @@ public class CardGame {
      */
     public static Player getNextPlayer(Player p){
         int i = CardGame.listOfPlayers.indexOf(p) + 1;
-        if(i > CardGame.listOfPlayers.size() - 1){
+        if (i > CardGame.listOfPlayers.size() - 1) {
             return CardGame.listOfPlayers.get(0);
         } else {
             return CardGame.listOfPlayers.get(i);
         }
     }
+
+//    public static Player getNextPlayer(Player p){
+//        if(CardGame.listOfPlayers.size() == 1) {
+//            System.out.println("only one player currently found in game");
+//            return CardGame.listOfPlayers.get(0);
+//        } else if (CardGame.listOfPlayers.size() == 0) {
+//            System.out.println("No players left");
+//            return null;
+//        }
+//        else {
+//            int i = CardGame.listOfPlayers.indexOf(p) + 1;
+//            if (i > CardGame.listOfPlayers.size() - 1) {
+//                return CardGame.listOfPlayers.get(0);
+//            } else {
+//                return CardGame.listOfPlayers.get(i);
+//            }
+//        }
+//    }
 
     /**
      * Main method.

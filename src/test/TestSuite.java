@@ -8,8 +8,9 @@ import org.junit.runners.Suite;
                      TestDealer.class,
                      TestCardHand.class,
                      TestCardGame.class,
+                     TestGameLogger.class,
                      TestMultithreading.class})
 
 public class TestSuite {
-    // Run all tests here
+    // Runs all tests here
 }

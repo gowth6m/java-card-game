@@ -1,8 +1,8 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 public class CardDeck {
 
@@ -49,10 +49,7 @@ public class CardDeck {
      * @return Removed Card object.
      */
     public Card pop() {
-        try{
-            return cards.remove(0);
-        } catch(IndexOutOfBoundsException ignored) {}
-        return null;
+        return cards.remove(0);
     }
 
     /**
@@ -67,14 +64,25 @@ public class CardDeck {
      * Gives a string of values of cards contained in a CardDeck separated by spaces.
      * @return String containing values of cards.
      */
-    public synchronized String getStringOfCardValues(){
+    public synchronized String getStringOfCardValues() {
         StringBuilder sb = new StringBuilder();
-        for (Card c:cards) {
+        for (Card c : cards) {
             sb.append(" ");
             sb.append(c.getValue());
         }
         return sb.toString().stripLeading();
     }
+
+//    public synchronized String getStringOfCardValues() {
+//        StringBuilder sb = new StringBuilder();
+//        try {
+//            for (Card c : cards) {
+//                sb.append(" ");
+//                sb.append(c.getValue());
+//            }
+//        } catch (ConcurrentModificationException ignored) {}
+//        return sb.toString().stripLeading();
+//    }
 
     // Getter and Setter
     /**

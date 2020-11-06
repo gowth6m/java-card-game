@@ -1,6 +1,9 @@
 package test;
 
-import main.*;
+import main.CardGame;
+import main.GameLogger;
+import main.Player;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,21 +22,27 @@ public class TestMultithreading {
         }
     }
 
-    /**
-     * TEST CASE 1:
-     * Player 1 should win here as player 1 is assigned a hand of [1,1,1,3] at the start amd the only possible way of
-     * winning in this pack is by getting four 1s.
-     */
     @Before
     public void setUp() {
         GameLogger.logging = false;
         GameLogger.printing = false;
+        CardGame.listOfPlayers.clear();
         CardGame.winningPlayer.set(0);
     }
 
+    @After
+    public void tearDown() {
+        CardGame.listOfPlayers.clear();
+        CardGame.winningPlayer.set(0);
+    }
+
+    /**
+     * TEST CASE 1: 2 player game
+     * Player 1 should win here as player 1 is assigned a hand of [1,1,1,3] at the start amd the only possible way of
+     * winning in this pack is by getting four 1s.
+     */
     @Test
     public void testGameOne() {
-        CardGame.listOfPlayers.clear();
         int[] pack = {1,2,1,2,1,1,3,3,4,4,5,5,4,5,6,6};
         dealForTestRun(pack);
         while(true) {
@@ -42,17 +51,15 @@ public class TestMultithreading {
                 break;
             }
         }
-        CardGame.winningPlayer.set(0);
     }
 
     /**
-     * TEST CASE 2:
+     * TEST CASE 2: 8 player game
      * Player 1 should win here as player 1 is assigned a hand of [1,1,1,1] first.
      * This is to test which player wins even though they all begin with winning hands.
      */
     @Test
     public void testGameTwo() {
-        CardGame.listOfPlayers.clear();
         int[] pack = {1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
                 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8};
         dealForTestRun(pack);
@@ -71,18 +78,16 @@ public class TestMultithreading {
                 break;
             }
         }
-        CardGame.winningPlayer.set(0);
     }
 
     /**
-     * TEST CASE 3:
+     * TEST CASE 3: 8 player game
      * Player 2 should win here as player 2 is assigned a hand of [2,2,2,29] at the start.
      * Only possibility of winning is by getting four 2s.
      * Player 2's deck at the start: [12,12,12,22]
      */
     @Test
     public void testGameThree() {
-        CardGame.listOfPlayers.clear();
         int[] pack = {1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 11, 29, 13, 14, 15, 16, 29, 18,
                 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 2, 25, 26, 27, 28};
         dealForTestRun(pack);
@@ -93,31 +98,52 @@ public class TestMultithreading {
                 break;
             }
         }
-        CardGame.winningPlayer.set(0);
     }
 
     /**
-     * TEST CASE 4:
-     * Player 3 should win here as player 3 is assigned a hand of [3,7,3,7] at the start.
+     * TEST CASE 4: 4 player game
+     * Player 3 should win the game as player 3 is assigned a hand of [3,11,3,7] at the start.
      * Only possibility of winning is by getting four 3s.
-     * Player 3's deck at start: [4,7,12,16]
+     * Player 3's deck at start: [3,7,12,16]
      */
     @Test
     public void testGameFour() {
-        CardGame.listOfPlayers.clear();
-        int[] pack = {1,2,3,4, 5,6,7,8, 1,2,3,4, 5,6,7,8, 1,2,4,3, 5,6,7,8, 10,11,12,3, 14,15,16,17};
+        int[] pack = {1,2,3,4, 5,6,11,8, 1,2,3,4, 5,6,7,8, 1,2,13,4, 5,6,7,8, 10,11,3,14, 14,3,16,17};
         dealForTestRun(pack);
-        while(true) {
-            if(CardGame.winningPlayer.get() != 0) {
+        while (true) {
+            if (CardGame.winningPlayer.get() != 0) {
                 Assert.assertEquals(3, CardGame.winningPlayer.get());
                 Assert.assertEquals("3 3 3 3", CardGame.listOfPlayers.get(2).getHand().getStringOfCardValues());
                 break;
             }
-            if (System.currentTimeMillis() == timeLimit) {
-                Assert.fail("Exceeded time limit, re-run the test");
+        }
+    }
+
+    /**
+     * TEST CASE 5: 10 player game
+     * Player 9 should win the game as player 9 is assigned a hand of [9,9,19,29] at the start.
+     * Only possibility of winning is by getting four 9s.
+     * Player 3's deck at start: [39,49,59,69]
+     */
+    @Test
+    public void testGameFive() {
+        int[] pack = {
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 9, 59, 60,
+                    61, 62, 63, 64, 65, 66, 9, 68, 69, 70};
+        dealForTestRun(pack);
+        while (true) {
+            if (CardGame.winningPlayer.get() != 0) {
+                Assert.assertEquals(9, CardGame.winningPlayer.get());
+                Assert.assertEquals("9 9 9 9", CardGame.listOfPlayers.get(8).getHand().getStringOfCardValues());
+                Assert.assertEquals("9 9 9 9", CardGame.listOfPlayers.get(8).getHand().getStringOfCardValues());
                 break;
             }
         }
-        CardGame.winningPlayer.set(0);
     }
 }

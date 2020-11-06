@@ -63,14 +63,6 @@ public class TestCardDeck {
     }
 
     @Test
-    public void testPopFromEmptyDeck() {
-        // Testing to see if it prevents error
-        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
-        emptyDeck.pop();
-        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
-    }
-
-    @Test
     public void testIsEmpty() {
         Assert.assertTrue("Deck is not empty (isEmpty failed)",emptyDeck.isEmpty());
         Assert.assertFalse("Deck is empty (isEmpty failed)",testDeck.isEmpty());
