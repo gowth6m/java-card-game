@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestMultithreading {
+    private long timeLimit = System.currentTimeMillis() + 5000;
 
     /**
      * Takes list of card numbers, assigns starting deck/hand for players and starts thread for each player hence starting the game.
@@ -76,7 +77,8 @@ public class TestMultithreading {
     /**
      * TEST CASE 3:
      * Player 2 should win here as player 2 is assigned a hand of [2,2,2,29] at the start.
-     * This is just to test the game with 8 players.
+     * Only possibility of winning is by getting four 2s.
+     * Player 2's deck at the start: [12,12,12,22]
      */
     @Test
     public void testGameThree() {
@@ -88,6 +90,31 @@ public class TestMultithreading {
             if(CardGame.winningPlayer.get() != 0) {
                 Assert.assertEquals(2, CardGame.winningPlayer.get());
                 Assert.assertEquals("2 2 2 2", CardGame.listOfPlayers.get(1).getHand().getStringOfCardValues());
+                break;
+            }
+        }
+        CardGame.winningPlayer.set(0);
+    }
+
+    /**
+     * TEST CASE 4:
+     * Player 3 should win here as player 3 is assigned a hand of [3,7,3,7] at the start.
+     * Only possibility of winning is by getting four 3s.
+     * Player 3's deck at start: [4,7,12,16]
+     */
+    @Test
+    public void testGameFour() {
+        CardGame.listOfPlayers.clear();
+        int[] pack = {1,2,3,4, 5,6,7,8, 1,2,3,4, 5,6,7,8, 1,2,4,3, 5,6,7,8, 10,11,12,3, 14,15,16,17};
+        dealForTestRun(pack);
+        while(true) {
+            if(CardGame.winningPlayer.get() != 0) {
+                Assert.assertEquals(3, CardGame.winningPlayer.get());
+                Assert.assertEquals("3 3 3 3", CardGame.listOfPlayers.get(2).getHand().getStringOfCardValues());
+                break;
+            }
+            if (System.currentTimeMillis() == timeLimit) {
+                Assert.fail("Exceeded time limit, re-run the test");
                 break;
             }
         }
