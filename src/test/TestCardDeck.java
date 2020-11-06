@@ -2,13 +2,21 @@ package test;
 
 import main.Card;
 import main.CardDeck;
+import main.GameLogger;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestCardDeck {
-    private int[] numbersInDeck = {1,2,3,4,5,6,7,8};
-    private CardDeck testDeck = new CardDeck(numbersInDeck);
+    private CardDeck testDeck = new CardDeck(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
+    private CardDeck emptyDeck = new CardDeck(new int[]{});
     private Card testCard = new Card(9);
+
+    @Before
+    public void setUp() {
+        GameLogger.logging = false;
+        GameLogger.printing = false;
+    }
 
     @Test
     public void testGetStringOfCardValues() {
@@ -25,12 +33,26 @@ public class TestCardDeck {
     }
 
     @Test
+    public void testAddCardToEmptyDeck() {
+        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
+        emptyDeck.addCard(testCard);
+        Assert.assertEquals("9", emptyDeck.getStringOfCardValues());
+    }
+
+    @Test
     public void testRemoveCard() {
         Assert.assertEquals("1 2 3 4 5 6 7 8", testDeck.getStringOfCardValues());
         testDeck.addCard(testCard);
         Assert.assertEquals("1 2 3 4 5 6 7 8 9", testDeck.getStringOfCardValues());
         testDeck.removeCard(testCard);
         Assert.assertEquals("1 2 3 4 5 6 7 8", testDeck.getStringOfCardValues());
+    }
+
+    @Test
+    public void testRemoveCardFromEmptyDeck() {
+        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
+        emptyDeck.removeCard(testCard);
+        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
     }
 
     @Test
@@ -41,8 +63,16 @@ public class TestCardDeck {
     }
 
     @Test
+    public void testPopFromEmptyDeck() {
+        // Testing to see if it prevents error
+        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
+        emptyDeck.pop();
+        Assert.assertEquals("", emptyDeck.getStringOfCardValues());
+    }
+
+    @Test
     public void testIsEmpty() {
-        CardDeck emptyDeck = new CardDeck();
-        Assert.assertTrue("Error, deck is not empty (isEmpty failed)",emptyDeck.isEmpty());
+        Assert.assertTrue("Deck is not empty (isEmpty failed)",emptyDeck.isEmpty());
+        Assert.assertFalse("Deck is empty (isEmpty failed)",testDeck.isEmpty());
     }
 }

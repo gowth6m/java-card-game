@@ -49,7 +49,10 @@ public class CardDeck {
      * @return Removed Card object.
      */
     public Card pop() {
-        return cards.remove(0);
+        try{
+            return cards.remove(0);
+        } catch(IndexOutOfBoundsException ignored) {}
+        return null;
     }
 
     /**

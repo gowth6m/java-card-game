@@ -8,25 +8,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CardGame {
     public static int numberOfPlayers;
-    private int[] inputPackNumbers;
+    public static int[] inputPackNumbers;
     public static final List<Player> listOfPlayers = new ArrayList<>();
     public static AtomicInteger winningPlayer = new AtomicInteger(0);
 
     public CardGame() { }
 
     /**
-     * Asks for number of players & input pack from command line
-     * Also checks for validity for input pack
-     * Gets list of input pack numbers and puts it in a 'inputPackNumbers'
+     * Asks for number of players from command line.
+     * Also checks if its an integer and valid.
      *
      * @throws URISyntaxException if invalid characters when trying to parse the String
      */
-    public void askForInputPack() throws URISyntaxException {
+    public void askForNumberOfPlayers() throws URISyntaxException {
         Scanner scanner = new Scanner(System.in);
-        String fileInput;
 
         while (true) {
-            System.out.print("Please enter the number of players: ");
+            if(GameLogger.printing) {
+                System.out.print("Please enter the number of players: ");
+            }
             String input = scanner.next();
             // check if its an int
             try {
@@ -38,9 +38,21 @@ public class CardGame {
                 System.out.println("Invalid input!");
             }
         }
+    }
 
+    /**
+     * Ask for inputPack from command line.
+     * Also checks if the input pack is valid and has the right amount of numbers.
+     *
+     * @throws URISyntaxException if invalid characters when trying to parse the String
+     */
+    public void askForInputPack() throws URISyntaxException {
+        Scanner scanner = new Scanner(System.in);
+        String fileInput;
         while (true) {
-            System.out.print("Please enter location of pack to load: ");
+            if(GameLogger.printing) {
+                System.out.print("Please enter location of pack to load: ");
+            }
             fileInput = scanner.next();
             // checks if its txt file
             if (fileInput.contains(".txt")) {
@@ -91,6 +103,7 @@ public class CardGame {
     public static void main(String[] args) throws URISyntaxException {
         CardGame game = new CardGame();
         GameLogger.initLogs();
+        game.askForNumberOfPlayers();
         game.askForInputPack();
         game.initialSetUp();
 

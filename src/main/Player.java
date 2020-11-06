@@ -28,7 +28,9 @@ public class Player implements Runnable{
         while(CardGame.winningPlayer.get() == 0){
             if(hand.isWinningHand()){
                 CardGame.winningPlayer.set(playerNumber);
-                System.out.println("player "+ playerNumber + " wins");
+                if (GameLogger.printing) {
+                    System.out.println("player " + playerNumber + " wins");
+                }
             } else if (deck.isEmpty()){
                 synchronized (this){
                     try {

@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class GameLogger {
+    public static boolean logging = true;
+    public static boolean printing = true;
 
     /**
      * Constructs a new instance of GameLogger.
@@ -16,12 +18,14 @@ public class GameLogger {
      * Deletes old output logs and creates directory if not already created.
      */
     public static void initLogs(){
-        File file = new File("logs/");
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        for(File sf: file.listFiles()){
-            sf.delete();
+        if(logging == true) {
+            File file = new File("logs/");
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            for (File sf : file.listFiles()) {
+                sf.delete();
+            }
         }
     }
 
@@ -32,15 +36,17 @@ public class GameLogger {
      * @param fileInput this is the input that gets recorded on the text file
      */
     public synchronized void writeToFile(String name, int playerNumber, String fileInput) {
-        try {
-            File file = new File("logs/" + name + playerNumber + "_output.txt");
-            FileWriter fr = new FileWriter(file, true);
-            fileInput += "\n";
-            fr.append(fileInput);
-            fr.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        if (logging == true) {
+            try {
+                File file = new File("logs/" + name + playerNumber + "_output.txt");
+                FileWriter fr = new FileWriter(file, true);
+                fileInput += "\n";
+                fr.append(fileInput);
+                fr.close();
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
         }
     }
 }
