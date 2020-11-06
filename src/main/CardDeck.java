@@ -73,17 +73,6 @@ public class CardDeck {
         return sb.toString().stripLeading();
     }
 
-//    public synchronized String getStringOfCardValues() {
-//        StringBuilder sb = new StringBuilder();
-//        try {
-//            for (Card c : cards) {
-//                sb.append(" ");
-//                sb.append(c.getValue());
-//            }
-//        } catch (ConcurrentModificationException ignored) {}
-//        return sb.toString().stripLeading();
-//    }
-
     // Getter and Setter
     /**
      *

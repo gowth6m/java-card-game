@@ -18,17 +18,15 @@ public class CardGame {
      * Asks for number of players from command line.
      * Also checks if its an integer and valid.
      *
-     * @throws URISyntaxException if invalid characters when trying to parse the String
      */
-    public void askForNumberOfPlayers() throws URISyntaxException {
+    public void askForNumberOfPlayers() {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             if(GameLogger.printing) {
                 System.out.print("Please enter the number of players: ");
             }
             String input = scanner.next();
-            // check if its an int
+            // To check if its an int
             try {
                 numberOfPlayers = Integer.parseInt(input);
                 if (numberOfPlayers > 1) {
@@ -88,7 +86,7 @@ public class CardGame {
      * @param p Current player
      * @return Player next in line to current player
      */
-    public static Player getNextPlayer(Player p){
+    public static Player getNextPlayer(Player p) {
         int i = CardGame.listOfPlayers.indexOf(p) + 1;
         if (i > CardGame.listOfPlayers.size() - 1) {
             return CardGame.listOfPlayers.get(0);
@@ -97,20 +95,19 @@ public class CardGame {
         }
     }
 
-//    public static Player getNextPlayer(Player p){
-//        if(CardGame.listOfPlayers.size() == 1) {
-//            System.out.println("only one player currently found in game");
-//            return CardGame.listOfPlayers.get(0);
-//        } else if (CardGame.listOfPlayers.size() == 0) {
-//            System.out.println("No players left");
-//            return null;
-//        }
-//        else {
-//            int i = CardGame.listOfPlayers.indexOf(p) + 1;
-//            if (i > CardGame.listOfPlayers.size() - 1) {
+//    public static Player getNextPlayingPlayer(Player p) {
+//        int i = CardGame.listOfPlayers.indexOf(p) + 1;
+//        if (i > CardGame.listOfPlayers.size() - 1) {
+//            if (CardGame.listOfPlayers.get(0).isPlayingGame()) {
 //                return CardGame.listOfPlayers.get(0);
 //            } else {
+//                return getNextPlayingPlayer(CardGame.listOfPlayers.get(0));
+//            }
+//        } else {
+//            if (CardGame.listOfPlayers.get(i).isPlayingGame()) {
 //                return CardGame.listOfPlayers.get(i);
+//            } else {
+//                return getNextPlayingPlayer(CardGame.listOfPlayers.get(i));
 //            }
 //        }
 //    }
@@ -123,6 +120,12 @@ public class CardGame {
         GameLogger.initLogs();
         game.askForNumberOfPlayers();
         game.askForInputPack();
+
+        // TODO (For Testing Only)
+//        numberOfPlayers = 16;
+//        FileReader fr = new FileReader("t16.txt");
+//        game.inputPackNumbers = fr.getListOfNumbers();
+
         game.initialSetUp();
 
         for(Player p:listOfPlayers){

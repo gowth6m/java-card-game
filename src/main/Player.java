@@ -1,5 +1,7 @@
 package main;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Player implements Runnable{
     private final int playerNumber;
     private final CardHand hand;
@@ -43,21 +45,21 @@ public class Player implements Runnable{
                 synchronized (CardGame.getNextPlayer(this)){
                     CardGame.getNextPlayer(this).notify();
                 }
-                // Logging
                 logger.writeToFile("player", playerNumber,"player " + playerNumber + " current hand is " + hand.getStringOfCardValues());
-                // TODO REMOVE THIS BEFORE SUBMIT
-                logger.writeToFile("player", playerNumber, "--------------------------------");
+                // TODO --- REMOVE THIS BEFORE SUBMIT ---
+                logger.writeToFile("player", playerNumber, "---------------------------------");
             }
         }
-        // logs the final deck in a separate deck text file.
+        synchronized (CardGame.getNextPlayer(this)){
+            CardGame.getNextPlayer(this).notify();
+        }
+        // logs the final deck in a separate deck text file and the final part of the log file for player.
         logger.writeToFile("deck", playerNumber,"deck" + playerNumber + " contents: " + deck.getStringOfCardValues());
-
         if(CardGame.winningPlayer.get() == playerNumber){
             logger.writeToFile("player", playerNumber,"player " + playerNumber + " wins");
         } else {
             logger.writeToFile("player", playerNumber, "player " + CardGame.winningPlayer.get() + " has informed player " + playerNumber + " that player " + CardGame.winningPlayer.get() + " has won");
         }
-
         logger.writeToFile("player", playerNumber, "player " + playerNumber + " exits");
         logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand: " + hand.getStringOfCardValues());
     }
@@ -77,6 +79,7 @@ public class Player implements Runnable{
     public synchronized void discardCard() {
         Card c = hand.getDiscardingCard();
         CardGame.getNextPlayer(this).getDeck().addCard(c);
+//        CardGame.getNextPlayingPlayer(this).getDeck().addCard(c);
         logger.writeToFile("player",playerNumber,("player " + playerNumber + " discards a " + c.getValue() + " to deck " + CardGame.getNextPlayer(this).getPlayerNumber()));
         hand.removeCard(c);
     }
@@ -101,5 +104,7 @@ public class Player implements Runnable{
      * Getter method for player number.
      * @return The current player number.
      */
-    public int getPlayerNumber() { return playerNumber; }
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 }

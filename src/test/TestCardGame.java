@@ -47,4 +47,28 @@ public class TestCardGame {
         Assert.assertEquals(1, CardGame.getNextPlayer(CardGame.listOfPlayers.get(1)).getPlayerNumber());
         CardGame.listOfPlayers.clear();
     }
+
+    /*
+    @Test
+    public void testGetNextPlayingPlayer() {
+        CardGame.listOfPlayers.clear();
+        CardGame.numberOfPlayers = 4;
+        CardGame.inputPackNumbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+                                           22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
+        testGame.initialSetUp();
+        Assert.assertEquals(2, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(0)).getPlayerNumber());
+        Assert.assertEquals(3, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(1)).getPlayerNumber());
+        Assert.assertEquals(4, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(2)).getPlayerNumber());
+        Assert.assertEquals(1, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(3)).getPlayerNumber());
+        CardGame.listOfPlayers.get(0).setPlayingGame(false);
+        CardGame.listOfPlayers.get(1).setPlayingGame(false);
+        CardGame.listOfPlayers.get(2).setPlayingGame(false);
+        Assert.assertEquals(4, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(0)).getPlayerNumber());
+        Assert.assertEquals(4, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(1)).getPlayerNumber());
+        Assert.assertEquals(4, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(2)).getPlayerNumber());
+        Assert.assertEquals(4, CardGame.getNextPlayingPlayer(CardGame.listOfPlayers.get(3)).getPlayerNumber());
+        CardGame.listOfPlayers.clear();
+    }
+
+     */
 }
