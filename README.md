@@ -1,4 +1,4 @@
-# Java-Card-Game
+# Card Game
 Second year Software Development CA1: Java Card Game (Paired Programming Project).
 
 ### General Rules
