@@ -6,7 +6,7 @@ import java.util.Collections;
 
 public class CardDeck {
 
-    protected final List<Card> cards = Collections.synchronizedList(new ArrayList<>());
+    protected List<Card> cards;
 
     /**
      * Default constructor.
@@ -18,6 +18,11 @@ public class CardDeck {
      * @param cardValues Array of integer card values to add to the CardDeck.
      */
     public CardDeck(int[] cardValues) {
+        cards = Collections.synchronizedList(new ArrayList<>());
+        convertValues(cardValues);
+    }
+
+    public void convertValues(int [] cardValues){
         for(int v:cardValues){
             cards.add(new Card(v));
         }

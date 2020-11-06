@@ -10,9 +10,8 @@ public class CardHand extends CardDeck {
      * @param cardValues Array of integer card values to add to the CardDeck.
      */
     public CardHand(int[] cardValues) {
-        for(int v:cardValues){
-            cards.add(new Card(v));
-        }
+        cards = new ArrayList<>();
+        convertValues(cardValues);
     }
 
     /**
