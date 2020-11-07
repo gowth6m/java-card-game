@@ -95,23 +95,6 @@ public class CardGame {
         }
     }
 
-//    public static Player getNextPlayingPlayer(Player p) {
-//        int i = CardGame.listOfPlayers.indexOf(p) + 1;
-//        if (i > CardGame.listOfPlayers.size() - 1) {
-//            if (CardGame.listOfPlayers.get(0).isPlayingGame()) {
-//                return CardGame.listOfPlayers.get(0);
-//            } else {
-//                return getNextPlayingPlayer(CardGame.listOfPlayers.get(0));
-//            }
-//        } else {
-//            if (CardGame.listOfPlayers.get(i).isPlayingGame()) {
-//                return CardGame.listOfPlayers.get(i);
-//            } else {
-//                return getNextPlayingPlayer(CardGame.listOfPlayers.get(i));
-//            }
-//        }
-//    }
-
     /**
      * Main method.
      */
@@ -121,7 +104,7 @@ public class CardGame {
         game.askForNumberOfPlayers();
         game.askForInputPack();
 
-        // TODO (For Testing Only)
+        // TODO: For Quick Testing Only
 //        numberOfPlayers = 16;
 //        FileReader fr = new FileReader("t16.txt");
 //        game.inputPackNumbers = fr.getListOfNumbers();
