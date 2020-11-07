@@ -40,7 +40,7 @@ public class FileReader {
      * Checks the file format, whether it has the right amount of numbers.
      * @return - true if the file contains positive integers and the file has rows equal to 8 * number of players
      */
-    public boolean validFile() {
+    public boolean readAndValidate() {
         File file = new File(root, name);
         if (!file.exists()){
             return false;
