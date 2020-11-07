@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class FileReader {
 
-    private final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
-    private File file;
+    //private final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
+    private final File root = new File(FileReader.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     private final String name;
     private final List<String> listOfNumbers = new ArrayList<>();
     private final int numberOfPlayers;
@@ -42,7 +41,7 @@ public class FileReader {
      * @return - true if the file contains positive integers and the file has rows equal to 8 * number of players
      */
     public boolean validFile() {
-        file = new File(root, name);
+        File file = new File(root, name);
         if (!file.exists()){
             return false;
         }
