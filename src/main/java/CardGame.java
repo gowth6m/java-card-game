@@ -62,7 +62,7 @@ public class CardGame {
             if (fileInput.contains(".txt")) {
                 FileReader fr = new FileReader(numberOfPlayers, fileInput);
                 // checks if the file exists and is correct format
-                if (fr.checkFileFormat()) {
+                if (fr.validFile()) {
                     p = fr.getListOfNumbers();
                     System.out.println("Is game winnable? " + fr.isGameWinnable());
                     break;

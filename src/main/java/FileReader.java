@@ -10,7 +10,9 @@ import java.util.Scanner;
 
 public class FileReader {
 
-    final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
+    private final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
+    private File file;
+    private final String name;
     private final List<String> listOfNumbers = new ArrayList<>();
     private final int numberOfPlayers;
 
@@ -20,7 +22,14 @@ public class FileReader {
      */
     public FileReader(int numberOfPlayers, String fileName) throws URISyntaxException {
         this.numberOfPlayers = numberOfPlayers;
-        File file = new File(root, fileName);
+        name = fileName;
+    }
+
+    /**
+     * Gets the list of numbers from input pack.
+     * @return the list of numbers from the input pack as a list of Integers.
+     */
+    public int[] getListOfNumbers() {
         try {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNext()) {
@@ -30,13 +39,6 @@ public class FileReader {
         } catch(IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Gets the list of numbers from input pack.
-     * @return the list of numbers from the input pack as a list of Integers.
-     */
-    public int[] getListOfNumbers() {
         int[] numbers = new int[numberOfPlayers * 8];
         for(int i = 0; i < listOfNumbers.size(); i++) {
             numbers[i] = Integer.parseInt(listOfNumbers.get(i));
@@ -48,7 +50,11 @@ public class FileReader {
      * Checks the file format, whether it has the right amount of numbers.
      * @return - true if the file contains positive integers and the file has rows equal to 8 * number of players
      */
-    public boolean checkFileFormat() {
+    public boolean validFile() {
+        file = new File(root, name);
+        if (!file.exists()){
+            return false;
+        }
         for(String number:listOfNumbers) {
             try{
                 if(Integer.parseInt(number) < 0 || listOfNumbers.size() != 8 * numberOfPlayers){
