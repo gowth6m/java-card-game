@@ -1,4 +1,4 @@
-package main.java;
+package com.cardgame;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;

@@ -1,12 +1,8 @@
-package test.java;
+package com.cardgame;
 
-import main.java.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestPlayer {
     private final CardGame testGame = new CardGame(2, new int[]{1,2,1,1,1,3,4,2,3,1,1,4,4,4,3,2});

@@ -1,4 +1,4 @@
-package main.java;
+package com.cardgame;
 
 import java.io.File;
 import java.io.FileWriter;

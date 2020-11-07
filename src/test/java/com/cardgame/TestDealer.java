@@ -1,7 +1,5 @@
-package test.java;
+package com.cardgame;
 
-import main.java.Dealer;
-import main.java.GameLogger;
 import org.junit.*;
 
 public class TestDealer {

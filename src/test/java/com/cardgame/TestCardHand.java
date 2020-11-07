@@ -1,8 +1,5 @@
-package test.java;
+package com.cardgame;
 
-import main.java.Card;
-import main.java.CardHand;
-import main.java.GameLogger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

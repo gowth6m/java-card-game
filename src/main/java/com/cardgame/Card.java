@@ -1,4 +1,4 @@
-package main.java;
+package com.cardgame;
 
 public class Card {
 
