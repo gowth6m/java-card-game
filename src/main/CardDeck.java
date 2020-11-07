@@ -22,6 +22,10 @@ public class CardDeck {
         convertValues(cardValues);
     }
 
+    /**
+     * Turns the list of integers into cards.
+     * @param cardValues list of integers read from the input text files.
+     */
     public void convertValues(int [] cardValues){
         for(int v:cardValues){
             cards.add(new Card(v));
@@ -66,7 +70,8 @@ public class CardDeck {
      */
     public synchronized String getStringOfCardValues() {
         StringBuilder sb = new StringBuilder();
-        for (Card c : cards) {
+        ArrayList<Card> listOfCards = new ArrayList<>(cards);
+        for (Card c: listOfCards) {
             sb.append(" ");
             sb.append(c.getValue());
         }
