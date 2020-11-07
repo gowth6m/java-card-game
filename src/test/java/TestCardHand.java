@@ -1,18 +1,18 @@
-package test;
+package test.java;
 
-import main.Card;
-import main.CardHand;
-import main.GameLogger;
+import main.java.Card;
+import main.java.CardHand;
+import main.java.GameLogger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestCardHand {
-    private CardHand testHandOne = new CardHand(new int[]{2, 2, 2, 2, 5});
-    private CardHand testHandTwo = new CardHand(new int[]{2, 2, 3, 3});
-    private CardHand testHandThree = new CardHand(new int[]{1, 2, 3, 4, 5});
-    private CardHand testHandFour = new CardHand(new int[]{1, 2, 3, 3, 2});
-    private CardHand emptyHand = new CardHand(new int[]{});
+    private final CardHand testHandOne = new CardHand(new int[]{2, 2, 2, 2, 5});
+    private final CardHand testHandTwo = new CardHand(new int[]{2, 2, 3, 3});
+    private final CardHand testHandThree = new CardHand(new int[]{1, 2, 3, 4, 5});
+    private final CardHand testHandFour = new CardHand(new int[]{1, 2, 3, 3, 2});
+    private final CardHand emptyHand = new CardHand(new int[]{});
 
     @Before
     public void setUp() {

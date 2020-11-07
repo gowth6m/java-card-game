@@ -1,16 +1,16 @@
-package test;
+package test.java;
 
-import main.Card;
-import main.CardDeck;
-import main.GameLogger;
+import main.java.Card;
+import main.java.CardDeck;
+import main.java.GameLogger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestCardDeck {
-    private CardDeck testDeck = new CardDeck(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
-    private CardDeck emptyDeck = new CardDeck(new int[]{});
-    private Card testCard = new Card(9);
+    private final CardDeck testDeck = new CardDeck(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
+    private final CardDeck emptyDeck = new CardDeck(new int[]{});
+    private final Card testCard = new Card(9);
 
     @Before
     public void setUp() {

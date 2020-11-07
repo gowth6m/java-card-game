@@ -1,4 +1,4 @@
-package main;
+package main.java;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -86,7 +86,12 @@ public class CardGame {
            Player p = new Player(this, new CardHand(dealtCards[0][i]), new CardDeck(dealtCards[1][i]), i + 1);
            listOfPlayers.add(p);
        }
+    }
 
+    /**
+     * Starts all player threads.
+     */
+    public void startGame() {
         for(Player p:listOfPlayers){
             (new Thread(p)).start();
         }
@@ -120,5 +125,6 @@ public class CardGame {
 //        game.inputPackNumbers = fr.getListOfNumbers();
 
         game.initialSetUp();
+        game.startGame();
     }
 }

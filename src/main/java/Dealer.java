@@ -1,8 +1,6 @@
-package main;
+package main.java;
 
 public class Dealer {
-
-    public Dealer(){ }
 
     /**
      * Deals cards an array of card values to the specified number of players.

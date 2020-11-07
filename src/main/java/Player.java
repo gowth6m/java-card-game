@@ -1,6 +1,4 @@
-package main;
-
-import java.util.concurrent.atomic.AtomicInteger;
+package main.java;
 
 public class Player implements Runnable{
     private final int playerNumber;

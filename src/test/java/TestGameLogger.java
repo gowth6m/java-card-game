@@ -1,6 +1,6 @@
-package test;
+package test.java;
 
-import main.GameLogger;
+import main.java.GameLogger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TestGameLogger {
-    private GameLogger testLogger = new GameLogger();
-    private String testPlayerName = "testPlayer";
-    private int testPlayerNumber = 0;
-    private ArrayList<String> fileLinesInList = new ArrayList<>();
+    private final GameLogger testLogger = new GameLogger();
+    private final String testPlayerName = "testPlayer";
+    private final int testPlayerNumber = 0;
+    private final ArrayList<String> fileLinesInList = new ArrayList<>();
 
     @Before
     public void setUp() {
