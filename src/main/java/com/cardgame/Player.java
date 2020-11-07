@@ -26,18 +26,19 @@ public class Player implements Runnable{
      * Loop of the actual game for a player.
      * (check if deck is empty and if game is over) -> Draws card -> Discards card
      */
-    public void run(){
-        while(game.winningPlayer.get() == 0){
-            if(hand.isWinningHand()){
+    public void run() {
+        while (game.winningPlayer.get() == 0) {
+            if (hand.isWinningHand()) {
                 game.winningPlayer.set(playerNumber);
                 if (GameLogger.printing) {
                     System.out.println("player " + playerNumber + " wins");
                 }
-            } else if (deck.isEmpty()){
-                synchronized (this){
+            } else if (deck.isEmpty()) {
+                synchronized (this) {
                     try {
                         wait();
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {
+                    }
                 }
             } else {
                 drawCard();
@@ -45,7 +46,7 @@ public class Player implements Runnable{
                 synchronized (game.getNextPlayer(this)) {
                     game.getNextPlayer(this).notify();
                 }
-                logger.writeToFile("player", playerNumber,"player " + playerNumber + " current hand is " + hand.getStringOfCardValues());
+                logger.writeToFile("player", playerNumber, "player " + playerNumber + " current hand is " + hand.getStringOfCardValues());
                 // TODO: REMOVE THIS BEFORE SUBMIT
                 logger.writeToFile("player", playerNumber, "---------------------------------");
             }
@@ -53,7 +54,10 @@ public class Player implements Runnable{
         synchronized (game.getNextPlayer(this)) {
             game.getNextPlayer(this).notify();
         }
-        // logs the final deck in a separate deck text file and the final part of the log file for player.
+        end();
+    }
+
+    public void end(){
         logger.writeToFile("deck", playerNumber,"deck" + playerNumber + " contents: " + deck.getStringOfCardValues());
         if(game.winningPlayer.get() == playerNumber){
             logger.writeToFile("player", playerNumber,"player " + playerNumber + " wins");
@@ -63,7 +67,7 @@ public class Player implements Runnable{
         logger.writeToFile("player", playerNumber, "player " + playerNumber + " exits");
         logger.writeToFile("player", playerNumber, "player " + playerNumber + " final hand: " + hand.getStringOfCardValues());
     }
-    
+
     /**
      * Draws a card from the player's deck.
      */

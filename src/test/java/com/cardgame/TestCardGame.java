@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class TestCardGame {
     private final CardGame testGame = new CardGame(2, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
@@ -28,7 +29,7 @@ public class TestCardGame {
 
     @Test
     public void testAskForInputPack() throws URISyntaxException {
-        ByteArrayInputStream in = new ByteArrayInputStream("test/resources/testPack.txt".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream("testPack.txt".getBytes());
         System.setIn(in);
         int[] input = CardGame.askForInputPack(2);
         System.setIn(System.in);
