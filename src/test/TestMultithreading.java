@@ -1,8 +1,6 @@
 package test;
 
-import main.CardGame;
-import main.GameLogger;
-import main.Player;
+import main.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,14 +8,19 @@ import org.junit.Test;
 
 public class TestMultithreading {
     private long timeLimit = System.currentTimeMillis() + 5000;
+    private final CardGame testGame = new CardGame();
 
     /**
      * Takes list of card numbers, assigns starting deck/hand for players and starts thread for each player hence starting the game.
      * @param pack The list of numbers for the cards in CardDeck/Hand.
      */
     private synchronized void dealForTestRun(int[] pack) {
-        TestPlayer.dealForTests(pack);
-        for(Player p:CardGame.listOfPlayers){
+        int numberOfPlayers = pack.length / 8;
+        int[][][] dealtCards = Dealer.deal(pack, numberOfPlayers);
+        for (int p = 0; p < numberOfPlayers; p++) {
+            testGame.listOfPlayers.add(new Player(testGame, new CardHand(dealtCards[0][p]), new CardDeck(dealtCards[1][p]), p + 1));
+        }
+        for(Player p:testGame.listOfPlayers){
             (new Thread(p)).start();
         }
     }
@@ -26,14 +29,14 @@ public class TestMultithreading {
     public void setUp() {
         GameLogger.logging = false;
         GameLogger.printing = false;
-        CardGame.listOfPlayers.clear();
-        CardGame.winningPlayer.set(0);
+        testGame.listOfPlayers.clear();
+        testGame.winningPlayer.set(0);
     }
 
     @After
     public void tearDown() {
-        CardGame.listOfPlayers.clear();
-        CardGame.winningPlayer.set(0);
+        testGame.listOfPlayers.clear();
+        testGame.winningPlayer.set(0);
     }
 
     /**
@@ -46,8 +49,8 @@ public class TestMultithreading {
         int[] pack = {1,2,1,2,1,1,3,3,4,4,5,5,4,5,6,6};
         dealForTestRun(pack);
         while(true) {
-            if(CardGame.winningPlayer.get() != 0) {
-                Assert.assertEquals("1 1 1 1", CardGame.listOfPlayers.get(0).getHand().getStringOfCardValues());
+            if(testGame.winningPlayer.get() != 0) {
+                Assert.assertEquals("1 1 1 1", testGame.listOfPlayers.get(0).getHand().getStringOfCardValues());
                 break;
             }
         }
@@ -64,17 +67,17 @@ public class TestMultithreading {
                 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8};
         dealForTestRun(pack);
         while(true) {
-            if (CardGame.winningPlayer.get() != 0) {
-                Assert.assertEquals(1, CardGame.winningPlayer.get());
-                Assert.assertNotEquals(2, CardGame.winningPlayer.get());
-                Assert.assertEquals("1 1 1 1", CardGame.listOfPlayers.get(0).getHand().getStringOfCardValues());
-                Assert.assertEquals("2 2 2 2", CardGame.listOfPlayers.get(1).getHand().getStringOfCardValues());
-                Assert.assertEquals("3 3 3 3", CardGame.listOfPlayers.get(2).getHand().getStringOfCardValues());
-                Assert.assertEquals("4 4 4 4", CardGame.listOfPlayers.get(3).getHand().getStringOfCardValues());
-                Assert.assertEquals("5 5 5 5", CardGame.listOfPlayers.get(4).getHand().getStringOfCardValues());
-                Assert.assertEquals("6 6 6 6", CardGame.listOfPlayers.get(5).getHand().getStringOfCardValues());
-                Assert.assertEquals("7 7 7 7", CardGame.listOfPlayers.get(6).getHand().getStringOfCardValues());
-                Assert.assertEquals("8 8 8 8", CardGame.listOfPlayers.get(7).getHand().getStringOfCardValues());
+            if (testGame.winningPlayer.get() != 0) {
+                Assert.assertEquals(1, testGame.winningPlayer.get());
+                Assert.assertNotEquals(2, testGame.winningPlayer.get());
+                Assert.assertEquals("1 1 1 1", testGame.listOfPlayers.get(0).getHand().getStringOfCardValues());
+                Assert.assertEquals("2 2 2 2", testGame.listOfPlayers.get(1).getHand().getStringOfCardValues());
+                Assert.assertEquals("3 3 3 3", testGame.listOfPlayers.get(2).getHand().getStringOfCardValues());
+                Assert.assertEquals("4 4 4 4", testGame.listOfPlayers.get(3).getHand().getStringOfCardValues());
+                Assert.assertEquals("5 5 5 5", testGame.listOfPlayers.get(4).getHand().getStringOfCardValues());
+                Assert.assertEquals("6 6 6 6", testGame.listOfPlayers.get(5).getHand().getStringOfCardValues());
+                Assert.assertEquals("7 7 7 7", testGame.listOfPlayers.get(6).getHand().getStringOfCardValues());
+                Assert.assertEquals("8 8 8 8", testGame.listOfPlayers.get(7).getHand().getStringOfCardValues());
                 break;
             }
         }
@@ -92,9 +95,9 @@ public class TestMultithreading {
                 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 2, 25, 26, 27, 28};
         dealForTestRun(pack);
         while(true) {
-            if(CardGame.winningPlayer.get() != 0) {
-                Assert.assertEquals(2, CardGame.winningPlayer.get());
-                Assert.assertEquals("2 2 2 2", CardGame.listOfPlayers.get(1).getHand().getStringOfCardValues());
+            if(testGame.winningPlayer.get() != 0) {
+                Assert.assertEquals(2, testGame.winningPlayer.get());
+                Assert.assertEquals("2 2 2 2", testGame.listOfPlayers.get(1).getHand().getStringOfCardValues());
                 break;
             }
         }
@@ -111,9 +114,9 @@ public class TestMultithreading {
         int[] pack = {1,2,3,4, 5,6,11,8, 1,2,3,4, 5,6,7,8, 1,2,13,4, 5,6,7,8, 10,11,3,14, 14,3,16,17};
         dealForTestRun(pack);
         while (true) {
-            if (CardGame.winningPlayer.get() != 0) {
-                Assert.assertEquals(3, CardGame.winningPlayer.get());
-                Assert.assertEquals("3 3 3 3", CardGame.listOfPlayers.get(2).getHand().getStringOfCardValues());
+            if (testGame.winningPlayer.get() != 0) {
+                Assert.assertEquals(3, testGame.winningPlayer.get());
+                Assert.assertEquals("3 3 3 3", testGame.listOfPlayers.get(2).getHand().getStringOfCardValues());
                 break;
             }
         }
@@ -138,10 +141,10 @@ public class TestMultithreading {
                     61, 62, 63, 64, 65, 66, 9, 68, 69, 70};
         dealForTestRun(pack);
         while (true) {
-            if (CardGame.winningPlayer.get() != 0) {
-                Assert.assertEquals(9, CardGame.winningPlayer.get());
-                Assert.assertEquals("9 9 9 9", CardGame.listOfPlayers.get(8).getHand().getStringOfCardValues());
-                Assert.assertEquals("9 9 9 9", CardGame.listOfPlayers.get(8).getHand().getStringOfCardValues());
+            if (testGame.winningPlayer.get() != 0) {
+                Assert.assertEquals(9, testGame.winningPlayer.get());
+                Assert.assertEquals("9 9 9 9", testGame.listOfPlayers.get(8).getHand().getStringOfCardValues());
+                Assert.assertEquals("9 9 9 9", testGame.listOfPlayers.get(8).getHand().getStringOfCardValues());
                 break;
             }
         }

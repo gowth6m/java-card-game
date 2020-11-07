@@ -18,7 +18,7 @@ public class GameLogger {
      * Deletes old output logs and creates directory if not already created.
      */
     public static void initLogs(){
-        if(logging == true) {
+        if(logging) {
             File file = new File("logs/");
             if (!file.exists()) {
                 file.mkdirs();
@@ -36,7 +36,7 @@ public class GameLogger {
      * @param fileInput this is the input that gets recorded on the text file
      */
     public synchronized void writeToFile(String name, int playerNumber, String fileInput) {
-        if (logging == true) {
+        if (logging) {
             try {
                 File file = new File("logs/" + name + playerNumber + "_output.txt");
                 FileWriter fr = new FileWriter(file, true);

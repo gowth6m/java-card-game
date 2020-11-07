@@ -12,12 +12,14 @@ public class FileReader {
 
     final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
     private final List<String> listOfNumbers = new ArrayList<>();
+    private final int numberOfPlayers;
 
     /**
      * Constructor for FileReader
      * @param fileName name of the input pack by the player
      */
-    public FileReader(String fileName) throws URISyntaxException {
+    public FileReader(int numberOfPlayers, String fileName) throws URISyntaxException {
+        this.numberOfPlayers = numberOfPlayers;
         File file = new File(root, fileName);
         try {
             Scanner myReader = new Scanner(file);
@@ -35,7 +37,7 @@ public class FileReader {
      * @return the list of numbers from the input pack as a list of Integers.
      */
     public int[] getListOfNumbers() {
-        int[] numbers = new int[CardGame.numberOfPlayers * 8];
+        int[] numbers = new int[numberOfPlayers * 8];
         for(int i = 0; i < listOfNumbers.size(); i++) {
             numbers[i] = Integer.parseInt(listOfNumbers.get(i));
         }
@@ -49,7 +51,7 @@ public class FileReader {
     public boolean checkFileFormat() {
         for(String number:listOfNumbers) {
             try{
-                if(Integer.parseInt(number) < 0 || listOfNumbers.size() != 8 * CardGame.numberOfPlayers){
+                if(Integer.parseInt(number) < 0 || listOfNumbers.size() != 8 * numberOfPlayers){
                     return false;
                 }
             } catch (NumberFormatException ignored) {
