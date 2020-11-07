@@ -28,6 +28,9 @@ public class Player implements Runnable{
         while(CardGame.winningPlayer.get() == 0){
             if(hand.isWinningHand()){
                 CardGame.winningPlayer.set(playerNumber);
+                synchronized (this){
+                    notifyAll();
+                }
                 if (GameLogger.printing) {
                     System.out.println("player " + playerNumber + " wins");
                 }
@@ -38,26 +41,16 @@ public class Player implements Runnable{
                     } catch (InterruptedException ignored) {}
                 }
             } else {
-                // TODO: not sure if its good to catch and ignore exception here
-                // TODO: problem is probably getNextPlayer
-                try {
-                    drawCard();
-                    discardCard();
-                    synchronized (CardGame.getNextPlayer(this)) {
-                        CardGame.getNextPlayer(this).notify();
-                    }
-                } catch (IndexOutOfBoundsException | IllegalMonitorStateException ignored) {}
+                drawCard();
+                discardCard();
+                synchronized (CardGame.getNextPlayer(this)) {
+                    CardGame.getNextPlayer(this).notify();
+                }
                 logger.writeToFile("player", playerNumber,"player " + playerNumber + " current hand is " + hand.getStringOfCardValues());
                 // TODO: REMOVE THIS BEFORE SUBMIT
                 logger.writeToFile("player", playerNumber, "---------------------------------");
             }
         }
-        // TODO: not sure if its good to catch and ignore exception here
-        try {
-            synchronized (CardGame.getNextPlayer(this)) {
-                CardGame.getNextPlayer(this).notify();
-            }
-        } catch (IndexOutOfBoundsException | IllegalMonitorStateException ignored) {}
         // logs the final deck in a separate deck text file and the final part of the log file for player.
         logger.writeToFile("deck", playerNumber,"deck" + playerNumber + " contents: " + deck.getStringOfCardValues());
         if(CardGame.winningPlayer.get() == playerNumber){
