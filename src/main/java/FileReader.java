@@ -30,15 +30,6 @@ public class FileReader {
      * @return the list of numbers from the input pack as a list of Integers.
      */
     public int[] getListOfNumbers() {
-        try {
-            Scanner myReader = new Scanner(file);
-            while (myReader.hasNext()) {
-                listOfNumbers.add(myReader.next());
-            }
-            myReader.close();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
         int[] numbers = new int[numberOfPlayers * 8];
         for(int i = 0; i < listOfNumbers.size(); i++) {
             numbers[i] = Integer.parseInt(listOfNumbers.get(i));
@@ -54,6 +45,15 @@ public class FileReader {
         file = new File(root, name);
         if (!file.exists()){
             return false;
+        }
+        try {
+            Scanner myReader = new Scanner(file);
+            while (myReader.hasNext()) {
+                listOfNumbers.add(myReader.next());
+            }
+            myReader.close();
+        } catch(IOException e) {
+            e.printStackTrace();
         }
         for(String number:listOfNumbers) {
             try{
