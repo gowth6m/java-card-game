@@ -13,7 +13,7 @@ public class CardGame {
     public AtomicInteger winningPlayer = new AtomicInteger(0);
 
     /**
-     * Constucts an instance of CardGame.
+     * Constructs an instance of CardGame.
      * @param players Number of players
      * @param pack Integer array of pack values
      */
