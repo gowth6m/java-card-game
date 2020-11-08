@@ -5,18 +5,20 @@ public class Card {
     private final int value;
 
     /**
-     * Constructor for Card.
-     * @param v Face value of the Card
+     * Class constructor.
+     *
+     * @param value face value of the Card
      */
-    public Card(int v) {
-        value = v;
+    public Card(int value) {
+        this.value = value;
     }
 
     /**
      * Getter for face value of Card.
-     * @return Face value of the Card
+     *
+     * @return face value of the Card
      */
-    public int getValue(){
+    public int getValue() {
         return value;
     }
 

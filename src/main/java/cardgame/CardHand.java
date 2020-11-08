@@ -6,8 +6,9 @@ import java.util.Random;
 public class CardHand extends CardDeck {
 
     /**
-     * Constructs an instance of CardDeck with the given card values.
-     * @param cardValues Array of integer card values to add to the CardDeck.
+     * Class constructor specifying list of card values to be added to the CardHand list.
+     *
+     * @param cardValues Array of integer card values to add to the CardHand
      */
     public CardHand(int[] cardValues) {
         cards = new ArrayList<>();
@@ -17,18 +18,19 @@ public class CardHand extends CardDeck {
     /**
      * Finds the most common card value in the CardDeck.
      * Returns -1 if all card values are different.
-     * @return Most common face value.
+     *
+     * @return most common card value
      */
-    public int mode(){
+    public int mode() {
         int maxCount = 1, maxValue = -1;
-        for(Card c1:cards){
+        for (Card c1 : cards) {
             int count = 0;
-            for(Card c2:cards){
-                if(c1.getValue() == c2.getValue()){
+            for (Card c2 : cards) {
+                if (c1.getValue() == c2.getValue()) {
                     count++;
                 }
             }
-            if(count > maxCount){
+            if (count > maxCount) {
                 maxCount = count;
                 maxValue = c1.getValue();
             }
@@ -38,11 +40,12 @@ public class CardHand extends CardDeck {
 
     /**
      * Returns a Card that can be discarded from the CardHand.
-     * @return main.Card object to be discarded
+     *
+     * @return Card to be discarded
      */
-    public Card getDiscardingCard(){
+    public Card getDiscardingCard() {
         int mode = mode();
-        if(mode == -1){
+        if (mode == -1) {
             return randomCard();
         } else {
             return randomCard(mode);
@@ -51,13 +54,14 @@ public class CardHand extends CardDeck {
 
     /**
      * Checks if hand contains 4 of the same value.
-     * @return Boolean.
+     *
+     * @return true if the CardHand is a winning CardHand
      */
     public boolean isWinningHand() {
-        if(cards.size() != 4) {
+        if (cards.size() != 4) {
             return false;
         }
-        for (Card c:cards) {
+        for (Card c : cards) {
             if ((c.getValue() != cards.get(0).getValue()))
                 return false;
         }
@@ -66,22 +70,24 @@ public class CardHand extends CardDeck {
 
     /**
      * Returns random Card object from CardHand object.
-     * @return Card.
+     *
+     * @return a random Card
      */
-    public Card randomCard(){
+    public Card randomCard() {
         Random r = new Random();
         return cards.get(r.nextInt(cards.size()));
     }
 
     /**
-     * Returns random Card object from CardHand object where Card value is not given value.
-     * @param v Value of cards to ignore.
-     * @return Card.
+     * Returns random Card object from CardHand where Card value is not given value.
+     *
+     * @param v value of cards to ignore
+     * @return a random Card that doesn't have the given value
      */
-    public Card randomCard(int v){
+    public Card randomCard(int v) {
         ArrayList<Card> filteredCards = new ArrayList<>();
-        for(Card c:cards){
-            if (c.getValue() != v){
+        for (Card c : cards) {
+            if (c.getValue() != v) {
                 filteredCards.add(c);
             }
         }

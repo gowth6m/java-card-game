@@ -9,7 +9,7 @@ public class GameLogger {
     public static boolean printing = true;
 
     /**
-     * Constructs a new instance of GameLogger.
+     * Default class constructor.
      */
     public GameLogger() {
     }
@@ -17,8 +17,8 @@ public class GameLogger {
     /**
      * Deletes old output logs and creates directory if not already created.
      */
-    public static void initLogs(){
-        if(logging) {
+    public static void initLogs() {
+        if (logging) {
             File file = new File("logs/");
             if (!file.exists()) {
                 file.mkdirs();
@@ -31,9 +31,10 @@ public class GameLogger {
 
     /**
      * Logs the given string to text file for the corresponding player given by playerNumber
-     * @param name name of the text file
-     * @param playerNumber part of the text file name
-     * @param fileInput this is the input that gets recorded on the text file
+     *
+     * @param name         name of the text file
+     * @param playerNumber player number attached to the name of the text file name
+     * @param fileInput    input that gets recorded on the text file
      */
     public synchronized void writeToFile(String name, int playerNumber, String fileInput) {
         if (logging) {
