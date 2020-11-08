@@ -18,8 +18,8 @@ public class FileReader {
     private final String pathForJar = rootForJar.getParent();
     // File pathing for resource folder in main and test
     private final String pathToMainResource = Paths.get("src", "main", "resources").toFile().getAbsolutePath();
-    private final String pathToTestResourceOne = Paths.get("src", "test", "resources").toFile().getAbsolutePath();
-    private final String pathToTestResourceTwo = Paths.get("resources").toFile().getAbsolutePath();
+    private final String pathToTestResource = Paths.get("src", "test", "resources").toFile().getAbsolutePath();
+    private final String pathToResource = Paths.get("resources").toFile().getAbsolutePath();
 
     /**
      * Class constructor specifying number of players and file name of the text file.
@@ -59,16 +59,16 @@ public class FileReader {
         File file;
         File fileForJar = new File(pathForJar, fileName);
         File fileForMainResource = new File(pathToMainResource, fileName);
-        File fileForTestResourceOne = new File(pathToTestResourceOne, fileName);
-        File fileForTestResourceTwo = new File(pathToTestResourceTwo, fileName);
+        File fileForTestResource = new File(pathToTestResource, fileName);
+        File fileForResource = new File(pathToResource, fileName);
         if (fileForJar.exists()) {
             file = fileForJar;
         } else if (fileForMainResource.exists()) {
             file = fileForMainResource;
-        } else if (fileForTestResourceOne.exists()) {
-            file = fileForTestResourceOne;
+        } else if (fileForTestResource.exists()) {
+            file = fileForTestResource;
         } else {
-            file = fileForTestResourceTwo;
+            file = fileForResource;
         }
         return file;
     }
