@@ -13,25 +13,27 @@ public class CardGame {
     public AtomicInteger winningPlayer = new AtomicInteger(0);
 
     /**
-     * Constructs an instance of CardGame.
-     * @param players Number of players
-     * @param pack Integer array of pack values
+     * Class constructor.
+     *
+     * @param numberOfPlayers  number of players
+     * @param inputPackNumbers integer array of values from input pack
      */
-    public CardGame(int players, int[] pack) {
-        numberOfPlayers = players;
-        inputPackNumbers = pack;
+    public CardGame(int numberOfPlayers, int[] inputPackNumbers) {
+        this.numberOfPlayers = numberOfPlayers;
+        this.inputPackNumbers = inputPackNumbers;
     }
 
     /**
      * Asks for number of players from command line.
-     * Also checks if its an integer and valid.
+     * Checks if the given number from command line is a valid integer value that is more than one.
      *
+     * @return the number of players given in by command line
      */
     public static int askForNumberOfPlayers() {
         Scanner scanner = new Scanner(System.in);
         int n;
         while (true) {
-            if(GameLogger.printing) {
+            if (GameLogger.printing) {
                 System.out.print("Please enter the number of players: ");
             }
             String input = scanner.next();
@@ -50,16 +52,18 @@ public class CardGame {
 
     /**
      * Ask for inputPack from command line.
-     * Also checks if the input pack is valid and has the right amount of numbers.
+     * Checks if the input pack is valid and has the right number of card values for the given number of players.
      *
-     * @throws URISyntaxException if invalid characters when trying to parse the String
+     * @param numberOfPlayers number of players to play the card game
+     * @return list of integer of input pack values
+     * @throws URISyntaxException if invalid characters when trying to parse a string using FileReader class
      */
     public static int[] askForInputPack(int numberOfPlayers) throws URISyntaxException {
         Scanner scanner = new Scanner(System.in);
         String fileInput;
-        int[] p;
+        int[] pack;
         while (true) {
-            if(GameLogger.printing) {
+            if (GameLogger.printing) {
                 System.out.print("Please enter location of pack to load: ");
             }
             fileInput = scanner.next();
@@ -68,8 +72,10 @@ public class CardGame {
                 FileReader fr = new FileReader(numberOfPlayers, fileInput);
                 // checks if the file exists and is correct format
                 if (fr.readAndValidate()) {
-                    p = fr.getListOfNumbers();
-                    System.out.println("Is game winnable? " + fr.isGameWinnable());
+                    pack = fr.getListOfNumbers();
+                    if (GameLogger.printing) {
+                        System.out.println("Is game winnable? " + fr.isGameWinnable());
+                    }
                     break;
                 } else {
                     System.out.println("Files doesn't exist or incorrect file format!");
@@ -78,58 +84,51 @@ public class CardGame {
                 System.out.println("Invalid input!");
             }
         }
-        return p;
+        return pack;
     }
 
     /**
-     * Constructs a new instance of Player for each player and deals CardHands and CardDecks.
+     * Constructs a new instance of Player,CardHand and CardDeck for each player and deals CardHands and CardDecks to the player.
      */
     public void initialSetUp() {
-       int[][][] dealtCards = Dealer.deal(inputPackNumbers, numberOfPlayers);
+        int[][][] dealtCards = Dealer.deal(inputPackNumbers, numberOfPlayers);
 
-       for(int i = 0; i < numberOfPlayers; i++){
-           Player p = new Player(this, new CardHand(dealtCards[0][i]), new CardDeck(dealtCards[1][i]), i + 1);
-           listOfPlayers.add(p);
-       }
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Player p = new Player(this, new CardHand(dealtCards[0][i]), new CardDeck(dealtCards[1][i]), i + 1);
+            listOfPlayers.add(p);
+        }
     }
 
     /**
-     * Starts all player threads.
+     * Checks if any player has a winning hand and sets it as winning player if player does.
+     * Then starts the player threads if no player has already won, otherwise ends the game for each player.
      */
     public void startGame() {
-        for(Player p:listOfPlayers){
-            if(p.getHand().isWinningHand() && winningPlayer.get() == 0){
+        for (Player p : listOfPlayers) {
+            if (p.getHand().isWinningHand() && winningPlayer.get() == 0) {
                 winningPlayer.set(p.getPlayerNumber());
+                if (GameLogger.printing) {
+                    System.out.println("player " + winningPlayer + " wins");
+                }
+                break;
             }
         }
-        if(winningPlayer.get() == 0) {
+        if (winningPlayer.get() == 0) {
             for (Player p : listOfPlayers) {
                 (new Thread(p)).start();
             }
         } else {
-            for(Player p:listOfPlayers){
+            for (Player p : listOfPlayers) {
                 p.end();
             }
         }
     }
 
     /**
-     * Checks player hand at the start to see if anyone has a winning hand so they instantly win.
-     */
-    public void checkForWinAtStart() {
-        for(Player p:listOfPlayers) {
-            if(p.getHand().isWinningHand()) {
-                winningPlayer.set(p.getPlayerNumber());
-                System.out.println("player "+winningPlayer+" wins");
-                break;
-            }
-        }
-    }
-
-    /**
      * Returns the next player in the list, loops back to first player if on last player.
-     * @param p Current player
-     * @return Player next in line to current player
+     *
+     * @param p current player
+     * @return player next in line to current player
      */
     public Player getNextPlayer(Player p) {
         int i = listOfPlayers.indexOf(p) + 1;
@@ -142,13 +141,14 @@ public class CardGame {
 
     /**
      * Main method.
+     *
+     * @throws URISyntaxException if invalid characters are used when trying to parse a string using FileReader class
      */
     public static void main(String[] args) throws URISyntaxException {
         int numberOfPlayers = askForNumberOfPlayers();
         CardGame game = new CardGame(numberOfPlayers, askForInputPack(numberOfPlayers));
         GameLogger.initLogs();
         game.initialSetUp();
-        game.checkForWinAtStart();
         game.startGame();
     }
 }
