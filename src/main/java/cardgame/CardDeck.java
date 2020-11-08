@@ -86,8 +86,6 @@ public class CardDeck {
         return sb.toString().stripLeading();
     }
 
-    // Getter and Setter
-
     /**
      * @return cards in CardDeck.
      */

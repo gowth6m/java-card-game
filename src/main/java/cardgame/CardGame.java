@@ -73,9 +73,6 @@ public class CardGame {
                 // checks if the file exists and is correct format
                 if (fr.readAndValidate()) {
                     pack = fr.getListOfNumbers();
-                    if (GameLogger.printing) {
-                        System.out.println("Is game winnable? " + fr.isGameWinnable());
-                    }
                     break;
                 } else {
                     System.out.println("Files doesn't exist or incorrect file format!");
