@@ -110,7 +110,6 @@ public class CardGame {
                 if (GameLogger.printing) {
                     System.out.println("player " + winningPlayer + " wins");
                 }
-                break;
             }
         }
         if (winningPlayer.get() == 0) {
