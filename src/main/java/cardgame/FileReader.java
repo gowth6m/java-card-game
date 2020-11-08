@@ -1,4 +1,4 @@
-package com.cardgame;
+package cardgame;
 
 import java.io.File;
 import java.io.IOException;

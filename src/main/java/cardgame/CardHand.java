@@ -1,4 +1,4 @@
-package com.cardgame;
+package cardgame;
 
 import java.util.ArrayList;
 import java.util.Random;

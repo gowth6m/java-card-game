@@ -1,4 +1,4 @@
-package com.cardgame;
+package cardgame;
 
 public class Dealer {
 
