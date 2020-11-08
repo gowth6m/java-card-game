@@ -73,8 +73,8 @@ public class TestCardHand {
         // Checks by first getting a random card from player hand, then checks if that card exists in player hand.
         boolean isRandomNumberInHand = false;
         int randomCardNumber = testHandOne.randomCard().getValue();
-        for(Card c:testHandOne.getCards()) {
-            if(randomCardNumber == c.getValue()) {
+        for (Card c : testHandOne.getCards()) {
+            if (randomCardNumber == c.getValue()) {
                 isRandomNumberInHand = true;
                 break;
             }

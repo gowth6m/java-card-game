@@ -3,6 +3,7 @@ package cardgame;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class TestGameLogger {
     public void setUp() {
         GameLogger.logging = true;
         GameLogger.initLogs();
-        testLogger.writeToFile(testPlayerName,testPlayerNumber,"Test input string one");
-        testLogger.writeToFile(testPlayerName,testPlayerNumber,"Test input string two");
+        testLogger.writeToFile(testPlayerName, testPlayerNumber, "Test input string one");
+        testLogger.writeToFile(testPlayerName, testPlayerNumber, "Test input string two");
     }
 
     /**
@@ -37,10 +38,10 @@ public class TestGameLogger {
                 fileLinesInList.add(myReader.nextLine());
             }
             myReader.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals("Test input string one",fileLinesInList.get(0));
-        Assert.assertEquals("Test input string two",fileLinesInList.get(1));
+        Assert.assertEquals("Test input string one", fileLinesInList.get(0));
+        Assert.assertEquals("Test input string two", fileLinesInList.get(1));
     }
 }

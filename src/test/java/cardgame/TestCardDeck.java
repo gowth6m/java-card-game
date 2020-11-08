@@ -17,7 +17,7 @@ public class TestCardDeck {
 
     @Test
     public void testGetStringOfCardValues() {
-        int[] deckNumbers = {1,2,3,4};
+        int[] deckNumbers = {1, 2, 3, 4};
         CardDeck deck = new CardDeck(deckNumbers);
         Assert.assertEquals("1 2 3 4", deck.getStringOfCardValues());
     }
@@ -61,7 +61,7 @@ public class TestCardDeck {
 
     @Test
     public void testIsEmpty() {
-        Assert.assertTrue("Deck is not empty (isEmpty failed)",emptyDeck.isEmpty());
-        Assert.assertFalse("Deck is empty (isEmpty failed)",testDeck.isEmpty());
+        Assert.assertTrue("Deck is not empty (isEmpty failed)", emptyDeck.isEmpty());
+        Assert.assertFalse("Deck is empty (isEmpty failed)", testDeck.isEmpty());
     }
 }

@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestPlayer {
-    private final CardGame testGame = new CardGame(2, new int[]{1,2,1,1,1,3,4,2,3,1,1,4,4,4,3,2});
+    private final CardGame testGame = new CardGame(2, new int[]{1, 2, 1, 1, 1, 3, 4, 2, 3, 1, 1, 4, 4, 4, 3, 2});
 
     @Before
     public void setUp() {

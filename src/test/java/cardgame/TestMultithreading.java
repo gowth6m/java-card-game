@@ -19,12 +19,12 @@ public class TestMultithreading {
      */
     @Test
     public void testGameOne() {
-        int[] pack = {1,2,1,2,1,1,3,3,4,4,5,5,4,5,6,6};
+        int[] pack = {1, 2, 1, 2, 1, 1, 3, 3, 4, 4, 5, 5, 4, 5, 6, 6};
         final CardGame testGame = new CardGame(2, pack);
         testGame.initialSetUp();
         testGame.startGame();
-        while(true) {
-            if(testGame.winningPlayer.get() != 0) {
+        while (true) {
+            if (testGame.winningPlayer.get() != 0) {
                 Assert.assertEquals("1 1 1 1", testGame.listOfPlayers.get(0).getHand().getStringOfCardValues());
                 break;
             }
@@ -43,7 +43,7 @@ public class TestMultithreading {
         final CardGame testGame2 = new CardGame(8, pack);
         testGame2.initialSetUp();
         testGame2.startGame();
-        while(true) {
+        while (true) {
             if (testGame2.winningPlayer.get() != 0) {
                 Assert.assertEquals(1, testGame2.winningPlayer.get());
                 Assert.assertNotEquals(2, testGame2.winningPlayer.get());
@@ -73,8 +73,8 @@ public class TestMultithreading {
         final CardGame testGame3 = new CardGame(8, pack);
         testGame3.initialSetUp();
         testGame3.startGame();
-        while(true) {
-            if(testGame3.winningPlayer.get() != 0) {
+        while (true) {
+            if (testGame3.winningPlayer.get() != 0) {
                 Assert.assertEquals(2, testGame3.winningPlayer.get());
                 Assert.assertEquals("2 2 2 2", testGame3.listOfPlayers.get(1).getHand().getStringOfCardValues());
                 break;
@@ -90,7 +90,7 @@ public class TestMultithreading {
      */
     @Test
     public void testGameFour() {
-        int[] pack = {1,2,3,4, 5,6,11,8, 1,2,3,4, 5,6,7,8, 1,2,13,4, 5,6,7,8, 10,11,3,14, 14,3,16,17};
+        int[] pack = {1, 2, 3, 4, 5, 6, 11, 8, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 13, 4, 5, 6, 7, 8, 10, 11, 3, 14, 14, 3, 16, 17};
         final CardGame testGame4 = new CardGame(4, pack);
         testGame4.initialSetUp();
         testGame4.startGame();
@@ -112,14 +112,14 @@ public class TestMultithreading {
     @Test
     public void testGameFive() {
         int[] pack = {
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                    11, 12, 13, 14, 15, 16, 17, 18, 9, 20,
-                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-                    51, 52, 53, 54, 55, 56, 57, 9, 59, 60,
-                    61, 62, 63, 64, 65, 66, 19, 68, 69, 70};
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                11, 12, 13, 14, 15, 16, 17, 18, 9, 20,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                51, 52, 53, 54, 55, 56, 57, 9, 59, 60,
+                61, 62, 63, 64, 65, 66, 19, 68, 69, 70};
         final CardGame testGame5 = new CardGame(10, pack);
         testGame5.initialSetUp();
         testGame5.startGame();
