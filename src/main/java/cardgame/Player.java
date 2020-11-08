@@ -58,8 +58,6 @@ public class Player implements Runnable {
                     game.getNextPlayer(this).notify();
                 }
                 logger.writeToFile("player", playerNumber, "player " + playerNumber + " current hand is " + hand.getStringOfCardValues());
-                // TODO: REMOVE THIS BEFORE SUBMIT
-                logger.writeToFile("player", playerNumber, "---------------------------------");
             }
         }
         synchronized (game.getNextPlayer(this)) {
