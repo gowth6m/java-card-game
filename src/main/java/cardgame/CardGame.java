@@ -12,6 +12,11 @@ public class CardGame {
     public final List<Player> listOfPlayers = new ArrayList<>();
     public AtomicInteger winningPlayer = new AtomicInteger(0);
 
+    /**
+     * Constucts an instance of CardGame.
+     * @param players Number of players
+     * @param pack Integer array of pack values
+     */
     public CardGame(int players, int[] pack) {
         numberOfPlayers = players;
         inputPackNumbers = pack;
