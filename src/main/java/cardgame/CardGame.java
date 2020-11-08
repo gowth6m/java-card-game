@@ -12,6 +12,11 @@ public class CardGame {
     public final List<Player> listOfPlayers = new ArrayList<>();
     public AtomicInteger winningPlayer = new AtomicInteger(0);
 
+    /**
+     * Constructs an instance of CardGame.
+     * @param players Number of players
+     * @param pack Integer array of pack values
+     */
     public CardGame(int players, int[] pack) {
         numberOfPlayers = players;
         inputPackNumbers = pack;
@@ -109,6 +114,19 @@ public class CardGame {
     }
 
     /**
+     * Checks player hand at the start to see if anyone has a winning hand so they instantly win.
+     */
+    public void checkForWinAtStart() {
+        for(Player p:listOfPlayers) {
+            if(p.getHand().isWinningHand()) {
+                winningPlayer.set(p.getPlayerNumber());
+                System.out.println("player "+winningPlayer+" wins");
+                break;
+            }
+        }
+    }
+
+    /**
      * Returns the next player in the list, loops back to first player if on last player.
      * @param p Current player
      * @return Player next in line to current player
@@ -129,13 +147,8 @@ public class CardGame {
         int numberOfPlayers = askForNumberOfPlayers();
         CardGame game = new CardGame(numberOfPlayers, askForInputPack(numberOfPlayers));
         GameLogger.initLogs();
-
-        // TODO: For Quick Testing Only
-//        numberOfPlayers = 16;
-//        FileReader fr = new FileReader("t16.txt");
-//        game.inputPackNumbers = fr.getListOfNumbers();
-
         game.initialSetUp();
+        game.checkForWinAtStart();
         game.startGame();
     }
 }

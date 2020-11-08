@@ -3,17 +3,23 @@ package cardgame;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class FileReader {
 
-    //private final File root = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).toURI());
-    private final File root = new File(FileReader.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     private final String name;
     private final List<String> listOfNumbers = new ArrayList<>();
     private final int numberOfPlayers;
+    // File pathing for jar
+    private final File rootForJar = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+    private String pathForJar = rootForJar.getParent();
+    // File pathing for resource folder in main and test
+    private String pathToMainResource = Paths.get("src","main","resources").toFile().getAbsolutePath();
+    private String pathToTestResource = Paths.get("src","test","resources").toFile().getAbsolutePath();
 
     /**
      * Constructor for FileReader
@@ -37,16 +43,34 @@ public class FileReader {
     }
 
     /**
+     * Checks if text file exists in 3 different locations and sets the one where it exist as the path.
+     * @return file from either same path as jar file, main resource folder or test resource folder
+     */
+    public File fileLocator() {
+        File file;
+        File fileForJar = new File(pathForJar,name);
+        File fileForMainResource = new File(pathToMainResource,name);
+        File fileForTestResource = new File(pathToTestResource,name);
+        if (fileForJar.exists()) {
+            file = fileForJar;
+        } else if (fileForMainResource.exists()){
+            file = fileForMainResource;
+        } else {
+            file = fileForTestResource;
+        }
+        return file;
+    }
+
+    /**
      * Checks the file format, whether it has the right amount of numbers.
      * @return - true if the file contains positive integers and the file has rows equal to 8 * number of players
      */
     public boolean readAndValidate() {
-        File file = new File(root, name);
-        if (!file.exists()){
+        if (!fileLocator().exists()){
             return false;
         }
         try {
-            Scanner myReader = new Scanner(file);
+            Scanner myReader = new Scanner(fileLocator());
             while (myReader.hasNext()) {
                 listOfNumbers.add(myReader.next());
             }
