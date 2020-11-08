@@ -103,24 +103,4 @@ public class FileReader {
         }
         return true;
     }
-
-    /**
-     * Checks if the game is winnable by checking if there are 4 of the same cards in the input pack.
-     *
-     * @return true if game is winnable
-     */
-    public boolean isGameWinnable() {
-        for (int a : getListOfNumbers()) {
-            int counter = 0;
-            for (int b : getListOfNumbers()) {
-                if (a == b) {
-                    counter++;
-                }
-            }
-            if (counter >= 4) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
