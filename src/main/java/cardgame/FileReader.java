@@ -3,6 +3,7 @@ package cardgame;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,10 @@ public class FileReader {
     private final int numberOfPlayers;
     // File pathing for jar
     private final File rootForJar = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-    private final String pathForJar = rootForJar.getParent();
+    private String pathForJar = rootForJar.getParent();
     // File pathing for resource folder in main and test
-    private final String pathToMainResource = Paths.get("src","main","resources").toFile().getAbsolutePath();
-    private final String pathToTestResource = Paths.get("src","test","resources").toFile().getAbsolutePath();
+    private String pathToMainResource = Paths.get("src","main","resources").toFile().getAbsolutePath();
+    private String pathToTestResource = Paths.get("src","test","resources").toFile().getAbsolutePath();
 
     /**
      * Constructor for FileReader
