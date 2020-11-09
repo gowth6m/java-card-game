@@ -39,8 +39,8 @@ public class Player implements Runnable {
     public void run() {
         while (game.winningPlayer.get() == 0) {
             if (hand.isWinningHand()) {
-                game.winningPlayer.set(playerNumber);
-                if (GameLogger.printing) {
+                boolean hasWon = game.winningPlayer.compareAndSet(0, playerNumber);
+                if (GameLogger.printing && hasWon) {
                     System.out.println("player " + playerNumber + " wins");
                 }
             } else if (deck.isEmpty()) {

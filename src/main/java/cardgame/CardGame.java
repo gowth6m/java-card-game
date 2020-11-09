@@ -102,21 +102,7 @@ public class CardGame {
      */
     public void startGame() {
         for (Player p : listOfPlayers) {
-            if (p.getHand().isWinningHand() && winningPlayer.get() == 0) {
-                winningPlayer.set(p.getPlayerNumber());
-                if (GameLogger.printing) {
-                    System.out.println("player " + winningPlayer + " wins");
-                }
-            }
-        }
-        if (winningPlayer.get() == 0) {
-            for (Player p : listOfPlayers) {
-                (new Thread(p)).start();
-            }
-        } else {
-            for (Player p : listOfPlayers) {
-                p.end();
-            }
+            (new Thread(p)).start();
         }
     }
 
