@@ -52,8 +52,9 @@ public class FileReader {
      * <p>
      * This is to ensure that text file can be found when running this program as jar file or when running from
      * IDE where main resource folder needs to be used instead or for JUnit tests where test resource folder is used.
+     * Also the the path can be given to find the text file.
      *
-     * @return file created from either same path as jar file, main resource folder or test resource folder
+     * @return file created from either same path as jar file, main resource folder, test resource folder or from path
      */
     public File fileLocator() {
         File file;
@@ -61,14 +62,17 @@ public class FileReader {
         File fileForMainResource = new File(pathToMainResource, fileName);
         File fileForTestResource = new File(pathToTestResource, fileName);
         File fileForResource = new File(pathToResource, fileName);
+        File fileForPathGivenByUser = new File(fileName);
         if (fileForJar.exists()) {
             file = fileForJar;
         } else if (fileForMainResource.exists()) {
             file = fileForMainResource;
         } else if (fileForTestResource.exists()) {
             file = fileForTestResource;
-        } else {
+        } else if (fileForResource.exists()) {
             file = fileForResource;
+        } else {
+            file = fileForPathGivenByUser;
         }
         return file;
     }
