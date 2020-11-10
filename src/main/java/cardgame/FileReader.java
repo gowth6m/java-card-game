@@ -84,11 +84,12 @@ public class FileReader {
      * @return - true if the file contains positive integers and the file has rows equal to 8 * number of players
      */
     public boolean readAndValidate() {
-        if (!fileLocator().exists()) {
+        File file = fileLocator();
+        if (!file.exists()) {
             return false;
         }
         try {
-            Scanner myReader = new Scanner(fileLocator());
+            Scanner myReader = new Scanner(file);
             while (myReader.hasNext()) {
                 listOfNumbers.add(myReader.next());
             }
